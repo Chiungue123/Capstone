@@ -1,5 +1,9 @@
 package com.capstone.backend.repository;
 
-public class MedicineRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.capstone.backend.jpa.Medicine;
+
+public interface MedicineRepository extends JpaRepository<Medicine, Byte>{
 
 }
