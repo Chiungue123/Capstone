@@ -13,11 +13,9 @@ import com.capstone.backend.repository.MedicineSymptomRepository;
 @Service
 public class MedicineSymptomService {
 	
-	@Autowired
-	MedicineSymptomRepository repo;
+	@Autowired MedicineSymptomRepository repo;
 
-	@Autowired
-	MedicineSymptom medicineSymptom;
+	// @Autowired MedicineSymptom medicineSymptom;
 
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 

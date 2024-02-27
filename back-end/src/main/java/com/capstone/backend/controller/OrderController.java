@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +20,12 @@ import com.capstone.backend.service.OrderService;
 
 @RestController
 @RequestMapping("/orders")
-//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 public class OrderController {
 
 	@Autowired OrderService service;
 	
-	@Autowired Order order;
+	// @Autowired Order order; Should not be autowired here as it is not a service or repository
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -42,14 +43,14 @@ public class OrderController {
 		return this.service.getOrders();
 	}
 	
-	@PutMapping()
+	@PutMapping("/update/{id}")
 	public Order updateOrder(@PathVariable("id") Byte id, @RequestBody Order order) {
 		
 		logger.info("Order - Controller - Update Order ID: ");
 		return this.service.updateOrder(id, order);
 	}
 	
-	@DeleteMapping()
+	@DeleteMapping("/delete/{id}")
 	public void deleteOrder(@PathVariable("id") Byte id) {
 		
 		logger.info("Order - Controller - Add Order");

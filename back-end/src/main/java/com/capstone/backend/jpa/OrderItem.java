@@ -31,14 +31,18 @@ public class OrderItem {
     @Column(name = "quantity", nullable = false)
     private Byte quantity;
     
+    @Column(name = "cost", nullable = false)
+    private Double cost;
+    
     public OrderItem() {}
 
-    public OrderItem(OrderItemId id, Order order, Medicine medicine, Byte quantity) {
+    public OrderItem(OrderItemId id, Order order, Medicine medicine, Byte quantity, Double cost) {
 		super();
 		this.id = id;
 		this.order = order;
 		this.medicine = medicine;
 		this.quantity = quantity;
+		this.cost = cost;
 	}
 
 	public OrderItemId getId() {
@@ -72,6 +76,14 @@ public class OrderItem {
     public void setQuantity(Byte quantity) {
         this.quantity = quantity;
     }
+    
+    public Double getCost() {
+    	return cost;
+    }
+    
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
 
 	@Override
 	public String toString() {

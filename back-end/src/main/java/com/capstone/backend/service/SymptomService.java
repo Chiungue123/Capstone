@@ -15,7 +15,7 @@ public class SymptomService {
 
 	@Autowired SymptomRepository repository;
 	
-	@Autowired Symptom symptom;
+	// @Autowired Symptom symptom;
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

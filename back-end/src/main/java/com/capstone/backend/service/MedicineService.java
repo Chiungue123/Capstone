@@ -14,7 +14,7 @@ import com.capstone.backend.repository.MedicineRepository;
 @Service
 public class MedicineService {
 
-	@Autowired Optional<Medicine> medicine;
+	// @Autowired Optional<Medicine> medicine;
 	
 	@Autowired MedicineRepository repo;
 	
@@ -35,8 +35,12 @@ public class MedicineService {
 	public Medicine updateMedicine(Byte id) {
 		
 		logger.info("Medicine - Service - Get Medicines");
-		medicine = this.repo.findById(id);
-		return null;
+		Optional<Medicine> medicine = this.repo.findById(id);
+		if (medicine.isPresent()) {
+            return this.repo.save(medicine.get());
+		} else {
+			return null;
+		}
 	}
 
 	public void deleteMedicine(Byte id) {

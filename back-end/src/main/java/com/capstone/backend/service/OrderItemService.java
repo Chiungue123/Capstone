@@ -15,7 +15,7 @@ public class OrderItemService {
 	
 	@Autowired OrderItemRepository repo;
 	
-	@Autowired OrderItem orderItem;
+	// @Autowired OrderItem orderItem;
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

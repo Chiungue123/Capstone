@@ -23,7 +23,7 @@ public class SymptomController {
 
 	@Autowired SymptomService service;
 	
-	@Autowired Symptom symptom;
+	// @Autowired Symptom symptom;
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

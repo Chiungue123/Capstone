@@ -1,5 +1,9 @@
 package com.capstone.backend.repository;
 
-public interface SymptomRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.capstone.backend.jpa.Symptom;
+
+public interface SymptomRepository extends JpaRepository<Symptom, Byte> {
 
 }

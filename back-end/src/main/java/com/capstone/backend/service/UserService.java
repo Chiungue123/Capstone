@@ -17,7 +17,7 @@ public class UserService {
 	 * USE THE OPTIONAL CLASS
 	 */
 
-	@Autowired User user;
+	// @Autowired User user;
 	
 	@Autowired UserRepository repo;
 	
