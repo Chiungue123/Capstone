@@ -1,17 +1,31 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [],
+  imports: [
+    ReactiveFormsModule
+  ],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
 
+  constructor(private toastr: ToastrService) { }
+
   isActive: boolean = false;
 
-  constructor() { }
+  signUpForm = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl('')
+  });
+
+  signInForm = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl('')
+  });
 
   onToggleLogin(): void {
     this.isActive = false; // Show the login form
@@ -21,12 +35,11 @@ export class SignInComponent {
     this.isActive = true; // Show the register form
   }
 
-  onSignIn(): void {
-    // Sign in logic
+  onRegister() {
+    console.log(this.signUpForm.value);
   }
 
-  onRegister(): void {
-    // Register logic
+  onSignIn() {
+    console.log(this.signInForm.value);
   }
-
 }

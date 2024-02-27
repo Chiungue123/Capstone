@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-medicine',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './medicine.component.css'
 })
 export class MedicineComponent {
+
+  constructor(private toastr: ToastrService) {}
 
 }

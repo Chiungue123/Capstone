@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-order',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './order.component.css'
 })
 export class OrderComponent {
+
+  constructor(private toastr: ToastrService) {}
 
 }
