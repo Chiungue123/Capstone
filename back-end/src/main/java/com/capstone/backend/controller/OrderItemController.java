@@ -20,7 +20,7 @@ import com.capstone.backend.service.OrderItemService;
 
 @RestController
 @RequestMapping("/order-items")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrderItemController {
 	
 	@Autowired OrderItemService service;

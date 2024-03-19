@@ -19,8 +19,8 @@ import com.capstone.backend.jpa.MedicineSymptom;
 import com.capstone.backend.service.MedicineSymptomService;
 
 @RestController
-@RequestMapping("/medicinesymptoms")
-@CrossOrigin(origins = "*")
+@RequestMapping("/medicine_symptoms")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MedicineSymptomController {
 	
 	@Autowired MedicineSymptomService service;

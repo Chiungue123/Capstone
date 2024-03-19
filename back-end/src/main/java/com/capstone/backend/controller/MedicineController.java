@@ -20,7 +20,7 @@ import com.capstone.backend.service.MedicineService;
 
 @RestController
 @RequestMapping("/medicines")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class MedicineController {
 
 	//@Autowired Medicine medicine;

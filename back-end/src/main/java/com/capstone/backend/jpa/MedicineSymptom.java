@@ -58,31 +58,31 @@ class MedicineSymptomId implements Serializable { // CHANGED FROM PUBLIC TO DEFA
 	private static final long serialVersionUID = 1L;
 
     @Column(name = "medicine_id")
-    private Integer medicineId;
+    private Byte medicineId;
 
     @Column(name = "symptom_id")
-    private Integer symptomId;
+    private Byte symptomId;
 
     public MedicineSymptomId() {}
 
-    public MedicineSymptomId(Integer medicineId, Integer symptomId) {
+    public MedicineSymptomId(Byte medicineId, Byte symptomId) {
         this.medicineId = medicineId;
         this.symptomId = symptomId;
     }
 
-    public Integer getMedicineId() {
+    public Byte getMedicineId() {
         return medicineId;
     }
 
-    public void setMedicineId(Integer medicineId) {
+    public void setMedicineId(Byte medicineId) {
         this.medicineId = medicineId;
     }
 
-    public Integer getSymptomId() {
+    public Byte getSymptomId() {
         return symptomId;
     }
 
-    public void setSymptomId(Integer symptomId) {
+    public void setSymptomId(Byte symptomId) {
         this.symptomId = symptomId;
     }
 
