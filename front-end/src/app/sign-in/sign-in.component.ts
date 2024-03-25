@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Register } from '../models/register';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
@@ -17,7 +16,9 @@ import { User } from '../models/user';
 })
 export class SignInComponent {
 
-  constructor(private toastr: ToastrService, private router: Router, private authService: AuthService) { }
+  constructor(private toastr: ToastrService, 
+              private router: Router, 
+              private authService: AuthService) { }
 
   isActive: boolean = false;
   isRegister: boolean = false; // Reveal the register form
@@ -40,7 +41,7 @@ export class SignInComponent {
   }
 
   onValidateEmail() {
-    console.log("onValidateEmail()")
+    console.log("Sign In Component: onValidateEmail()")
 
     if (this.validateRestistry()) {
       let user = new User();
@@ -53,8 +54,11 @@ export class SignInComponent {
             console.log('User: ', user);
 
           } else {
-            this.toastr.success('Email Verified: Proceeding to Registration...');
-            this.router.navigate(['/register']);
+
+            console.log("Sign Up Page: Redirecting to Register")
+            console.log("Email Value: ", this.signUpForm.value.email!)
+
+            this.router.navigate(['/register'], {state: {email: this.signUpForm.value.email!}});
           }
         },
         error: (error: any) => {
@@ -65,12 +69,12 @@ export class SignInComponent {
   }
 
   onRegister() {
-    console.log("onRegister()")
+    console.log("Sign In Component: onRegister()")
 
   }
 
   onSignIn() {
-    console.log("onSignIn()")
+    console.log("Sign In Component: onSignIn()")
 
     if (this.validateUser()) {
       this.toastr.info('Verifying your email and password...');
@@ -109,7 +113,6 @@ export class SignInComponent {
         return false;
     } else {
 
-      console.log("Form Data: ", this.signUpForm.value)
       return true;
     } 
   }
@@ -136,5 +139,11 @@ export class SignInComponent {
     }
 
     return true;
+  }
+
+  onTest() {
+    console.log("Sign In Component: Redirecting to Registration")
+    console.log("Using email@example.com as test value")
+    this.router.navigate(['/register'], {state: {email: "email@example.com"}});
   }
 }

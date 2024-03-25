@@ -1,49 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <!--<head>
+    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     
     <body>
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit">
-            <div class="form-slide">
-                <label for="email">Email:</label>
-                <input type="email" id="email" formControlName="email" required>
-            </div>
-    
-            <div class="form-slide">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" formControlName="firstName" required>
-    
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" formControlName="lastName" required>
-            </div>
-    
-            <div class="form-slide">
-                <label for="username">Username:</label>
-                <input type="text" id="username" formControlName="username" required>
-    
-                <label for="password">Password:</label>
-                <input type="password" id="password" formControlName="password" required>
-            </div>
-    
-            <div class="form-slide">
-                <label for="address">Address:</label>
-                <input type="text" id="address" formControlName="address" required>
-    
-                <label for="phone">Phone:</label>
-                <input type="tel" id="phone" formControlName="phone" required>
-            </div>
-    
-            <div class="form-slide">
-                <label for="isAdmin">Is Admin:</label>
-                <input type="checkbox" id="isAdmin" name="isAdmin">
-            </div>
-    
-            <input type="submit" value="Submit">
-        </form>
-    </body>-->
+        <div class="container">
+            <h1>Registeration Details</h1>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit">
+                <div class="form-component">
+                    <label for="username">Username</label>
+                    <input type="text" formControlName="username" required>
+                    <span class="focus-input"></span>
+                </div>
+        
+                <div class="form-component">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" formControlName="firstName" required>
+                    <span class="focus-input"></span>
+                </div>
+
+                <div class="form-component">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" formControlName="lastName" required>
+                    <span class="focus-input"></span>
+                </div>
+        
+                <div class="form-component">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" formControlName="address" required>
+                    <span class="focus-input"></span>
+                </div>
+
+                <div class="form-component">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" formControlName="phone" required>
+                    <span class="focus-input"></span>
+                </div>
+        
+                <div class="form-component">
+                    <label for="isAdmin">Is Admin</label>
+                    <input type="checkbox" id="isAdmin" formControlName="isAdmin">
+                </div>
+
+                <div class="form-component">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" formControlName="password" required>
+                    <span class="focus-input"></span>
+                </div>
+
+                <div class="form-component">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+                    <span class="focus-input"></span>
+                </div>
+        
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
     
 </html>

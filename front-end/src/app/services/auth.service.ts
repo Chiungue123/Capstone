@@ -18,8 +18,8 @@ export class AuthService {
   validate(user: User): Observable<User> {
     const fullPath = `${this.apiUrl}${this.endpoint}/validate`;
     
-    console.log('Full path: ', fullPath);
-    console.log('Authenticating User:', user);
+    //console.log('Full path: ', fullPath);
+    //console.log('Authenticating User:', user);
   
     return this.http.post<User>(fullPath, user);
   }
