@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -56,6 +58,12 @@ export class RegisterComponent {
     //createdOn: new FormControl([new Date()]),
     //modifiedOn: new FormControl([new Date()])
   });
+
+  changeSlide(value: string) {
+    console.log("Changing Slide - Value: ", value)
+
+
+  }
 
   // Add this method in your component class
   isPasswordMatching(): boolean {
