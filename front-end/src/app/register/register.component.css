@@ -3,10 +3,11 @@
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
+    color: white;
 }
 
 label {
-    font-size: 13px;
+    font-size: 14px;
     padding: 0px, 0px, 0px, 5px;
     color:#015758
 }
@@ -16,7 +17,7 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: #c9d6ff;
+    position: absolute;
     background: linear-gradient(45deg,#00dbde,#fc00ff);
     display: flex;
     align-items: center;
@@ -25,7 +26,7 @@ body {
 }
 
 .container {
-    padding: 50px;
+    padding: 0 50px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
@@ -34,8 +35,8 @@ body {
     justify-content: center;
     flex-direction: column;
     position: relative;
-    width: 600px;
-    min-height: 480px;
+    width: 500px;
+    height: 650px;
 }
 
 .container h1 {
@@ -44,36 +45,45 @@ body {
     color: #333;
     line-height: 1.2;
     text-align: center;
-    padding-bottom: 44px;
+    padding-bottom: 65px;
 }
 
 form {
-    width: 80%;
+    width: 100%;
+    overflow: hidden;
 }
 
 .slides-container {
     width: 100%;
     display: flex;
-    overflow: hidden;
+    transition: transform .7s ease;
 }
 
 .slide {
-    min-width: 100%; /* Ensure each slide takes full container width */
-    transition: transform 0.5s ease; /* Smooth transition for sliding effect */
+    max-width: 600px;
+    min-width: 400px; /* Ensure each slide takes full container width */
+    margin-right: 100px;
 }
 
-.form-component {
+.form-component,
+.form-component-checkbox {
+    min-height: 40px;
     position: relative;
     border-bottom: 2px solid #d9d9d9;
     margin-bottom: 50px;
 }
 
-.form-component input {
-    width: 100%;
-    min-height: 40px;
-    padding: 0 5px;
+.form-component input,
+.form-component-checkbox input {
+    width: 5%;
     border: none;
     outline: none;
+}
+
+.form-component input {
+    padding: 0 5px;
+    width: 100%;
+    height: 40px;
 }
 
 .focus-input {
@@ -88,7 +98,7 @@ form {
     pointer-events: none;
     transform-origin: right;
     transform: scaleX(0);
-    transition: transform .4s;
+    transition: transform .6s;
 }
 
 .form-component:focus-within .focus-input {
@@ -102,20 +112,41 @@ button {
     border: none;
     background: 0 0;
     color: #fff;
- }
+}
+
+svg {
+    z-index: 1;
+    transition: transform 0.3s ease; 
+}
  
- 
- .button-slide-1 {
+.span-button {
+    z-index: 1;
+}
+
+/*** Button Slide Containers ***/
+.button-container-1 {
     width: 80%;
     display: block;
     position: relative;
     border-radius: 25px;
     overflow: hidden;
-    margin: 0 auto;
- }
- 
- 
- .button-slide-1 button {
+    margin: auto;
+}
+
+.button-container-2, .button-container-3 {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    margin: auto;
+}
+
+.button-container-3 {
+    margin-top: 40%;
+}
+
+/*** Buttons ***/
+.button-container-1 button {
     top: 0;
     left: 0;
     width: 100%;
@@ -123,7 +154,6 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 20px;
     margin: auto;
     gap: 5px;
     transition: gap 0.3s ease;
@@ -132,21 +162,28 @@ button {
     padding: 10px;
     border: none;
     border-radius: 8px;
- }
+}
  
- 
- svg {
-    z-index: 1;
-    transition: transform 0.3s ease;
- }
- 
- 
- .span-button {
-    z-index: 1;
- }
- 
- 
- .button-slide-1 button::before {
+.button-container-2 .button-next,
+.button-container-2 .button-prev,
+.button-container-3 .button-next,
+.button-container-3 .button-prev {
+    width: 40%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: auto;
+    border-radius: 25px;
+    overflow: hidden;
+    background: linear-gradient(90deg, #fc00ff, #00dbde);
+    padding: 10px;
+}
+
+/*** Button Pseudo Elements ***/
+.button-container-1 button::before {
     content: "";
     position: absolute;
     top: 0;
@@ -156,16 +193,82 @@ button {
     background: linear-gradient(90deg, #00dbde, #fc00ff);
     opacity: 0;
     transition: opacity .5s;
- }
- 
- 
- .button-slide-1 button:hover::before {
+}
+
+.button-container-2 button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00dbde, #fc00ff);
+    opacity: 0;
+    transition: opacity .5s;
+    z-index: -1;
+}
+
+ /*** Button Animations ***/
+.button-container-1 button:hover::before,
+.button-container-2 button:hover::before,
+.button-container-3 button:hover::before {
     cursor: pointer;
     opacity: 1;
- }
+}
  
+.button-container-1 button:hover,
+.button-container-2 button:hover,
+.button-container-3 button:hover {
+    cursor: pointer;
+}
  
- .button-slide-1 button:hover svg {
+.button-container-2 .button-prev:hover svg,
+.button-container-3 .button-prev:hover svg {
+    transform: translateX(-5px);
+}
+
+.button-container-1 button:hover svg,
+.button-container-2 button:hover svg,
+.button-container-3 button:hover svg {
     transform: translateX(5px);
- }
- 
+}
+
+input {
+    color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.complete {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.complete button{
+    width: 80%;
+    height: 100%;
+    padding: 10px;
+    border: 1px solid #03a81e;
+    border-radius: 17px;
+    background-color: #03a81e;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    transition: 0.2s ease-in-out;
+}
+  
+.complete button:hover{
+    cursor: pointer;
+    background-color: #04db27;
+    border: 1px solid #04db27;
+}
+
+.input-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

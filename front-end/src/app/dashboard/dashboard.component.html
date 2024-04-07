@@ -1,3 +1,39 @@
-<app-header></app-header>
-<p>dashboard works!</p>
-<app-footer></app-footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+</head>
+<body>
+    <div class="top-container">
+        <div class="left"> 
+
+            <h1>Title #1</h1> <!-- Logo -->
+            <h1>Title #2</h1> <!-- Dashboard Title -->
+
+        </div>
+
+        <div class="right"> <!--Brightness Toggle-->
+            <button type="button">Brightness</button>
+        
+        </div>
+        <div class="profile">
+            <p>Hey, {{user.firstName}}</p> <!-- Greet By First Name -->
+            <p>{{position}}</p> <!-- Admin or User -->
+        </div>
+
+    </div>
+        
+    <div class="flex-container">
+        <app-header class="header"></app-header>
+        <div class="main">
+            <p>Main Dashboard</p>
+        </div>
+    </div>
+    <!-- <app-footer></app-footer> -->
+
+</body>
+</html>

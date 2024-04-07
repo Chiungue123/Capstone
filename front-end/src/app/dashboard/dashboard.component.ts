@@ -17,7 +17,5 @@ export class DashboardComponent {
 
   constructor(private toastr: ToastrService) {}
 
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
-  }
+  
 }
