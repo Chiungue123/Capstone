@@ -1,39 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-
-</head>
-<body>
-    <div class="top-container">
-        <div class="left"> 
-
-            <h1>Title #1</h1> <!-- Logo -->
-            <h1>Title #2</h1> <!-- Dashboard Title -->
-
-        </div>
-
-        <div class="right"> <!--Brightness Toggle-->
-            <button type="button">Brightness</button>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+    </head>
+    <body>
         
+        <div class="top">
+            <div class="logo">
+                <i class="bi bi-hospital"></i>
+            </div>
+            <div class="right">
+                <div class="brightness">
+                    <button type="button" class="light"><i class="bi bi-brightness-high-fill"></i></button>
+                    <button type="button" class="dark"><i class="bi bi-moon-fill"></i></button>
+                </div>
+                <div class="profile">
+                    <p>Hey, {{FirstName}}</p> <!-- Greet By First Name -->
+                    <p>{{position}}</p> <!-- Admin or User -->
+                </div>
+                <div class="icon">
+                    <i class="bi bi-person-square"></i>
+                </div>
+            </div>
         </div>
-        <div class="profile">
-            <p>Hey, {{user.firstName}}</p> <!-- Greet By First Name -->
-            <p>{{position}}</p> <!-- Admin or User -->
-        </div>
+        <div class="flex-row">
+            <app-header class="side-bar"></app-header>
+            <div class="main">
+                <div class="home"> <!-- Dashboard -->
 
-    </div>
-        
-    <div class="flex-container">
-        <app-header class="header"></app-header>
-        <div class="main">
-            <p>Main Dashboard</p>
-        </div>
-    </div>
-    <!-- <app-footer></app-footer> -->
+                </div>
+                <div class="users"> <!-- New Users -->
 
-</body>
+                </div>
+                <div class="history"> <!-- Recent Orders -->
+
+                </div>
+                <div class="medicines"> <!-- Available Medicines in Stock -->
+
+                </div>
+            </div>
+        </div>
+        <!-- <app-footer></app-footer> -->
+    </body>
 </html>

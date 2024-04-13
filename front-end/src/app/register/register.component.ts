@@ -37,14 +37,7 @@ export class RegisterComponent {
       console.log("Registration Page")
       console.log("Email: ", this.email)
 
-      if (this.email === '' || this.email === null ||
-        this.email === undefined || !this.email.includes("@")) {
-
-        this.toastr.error("Incorrectly Formatted Email: Redirecting to Login")
-        this.router.navigate(['/login'])
-      } else {
-         console.log("Registration Page: Email Verified")
-      }
+      this.validateEmail(this.email);
     }
   }
 
@@ -135,18 +128,31 @@ onTest() {
   user.Password = "password";
   user.Address = "123 Test St";
   user.Phone = "1234567890";
+  user.Email = "test@example.com";
   user.IsAdmin = false;
 
   let currentTime = new Date();
   user.CreatedOn = currentTime;
   user.ModifiedOn = currentTime;
 
-  console.log(user);
+  console.log("User Details: ", user)
+  console.log(user.Email);
 
   console.log("Navigating to Dashboard")
-  this.router.navigate(['/dashboard'], {state: {User: user}});
+  // Reading undefined in the dashboard component
+  this.router.navigate(['/dashboard'], { state: { user } });
 }
 
+validateEmail(email: string) {
+  if (email === '' || email === null ||
+        email === undefined || !email.includes("@")) {
+
+        this.toastr.error("Incorrectly Formatted Email: Redirecting to Login")
+        this.router.navigate(['/login'])
+      } else {
+         console.log("Registration Page: Email Verified")
+      }
+}
 /*
 
 IMPLEMENTING HASHING FOR SECURITY
