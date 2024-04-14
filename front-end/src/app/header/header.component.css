@@ -6,9 +6,11 @@
 }
 
 html {
-    padding: 2% 0;
-    width: 160px;
-    height: 100%;
+    position: fixed;
+    top: 10;
+    overflow-y: auto;
+    width: 170px;
+    height: 80vh;
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
@@ -22,14 +24,16 @@ body {
 }
 
 
-a {
+button {
     text-decoration: none;
+    background-color: transparent;
+    border: none;
     color: black;
-    transition: 0.3s;
+    transition: transform 0.3s ease;
 }
 
-a :hover {
-    background-color: #f1356d;
+button:hover {
+    transform: translateX(5px);
 }
 
 i {
@@ -52,7 +56,7 @@ i {
     padding: 20px 0;
 }
 
-.top-links a {
+.top-links button {
     padding: 20px 0px;
 }
 

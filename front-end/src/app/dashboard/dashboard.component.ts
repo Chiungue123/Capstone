@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import { Router } from '@angular/router';
 import { User } from '../models/user';
+import { Subscription } from 'rxjs';
+import { ScrollService } from '../services/scroll.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,14 +17,17 @@ import { User } from '../models/user';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  private sectionSubscription!: Subscription;
 
   user!: User;
   position: string = "Admin";
   FirstName: string = "Rodger";
 
   constructor(private toastr: ToastrService,
-              private router: Router) {
+              private router: Router,
+              private scrollService: ScrollService) {
 
     /*const navigation = this.router.getCurrentNavigation();
 
@@ -37,6 +42,20 @@ export class DashboardComponent {
     }*/
   }
 
+  ngOnInit() {
+    console.log("Dashboard Page: NgOnInit");
+    this.sectionSubscription = this.scrollService.currentSection.subscribe(section => {
+      this.scrollToSection(section);
+    });
+  }
+
+  scrollToSection(sectionId: string) {
+    const sectionElement = document.getElementById(sectionId);
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   validateUser(user: User) {
     console.log("User: ", user)
 
@@ -48,5 +67,9 @@ export class DashboardComponent {
     } else {
        console.log("Registration Page: Email Verified")
     }
+  }
+
+  ngOnDestroy() {
+    this.sectionSubscription.unsubscribe();
   }
 }

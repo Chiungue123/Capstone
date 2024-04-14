@@ -6,7 +6,6 @@
         <title>Dashboard</title>
     </head>
     <body>
-        
         <div class="top">
             <div class="logo">
                 <i class="bi bi-hospital"></i>
@@ -21,24 +20,42 @@
                     <p>{{position}}</p> <!-- Admin or User -->
                 </div>
                 <div class="icon">
-                    <i class="bi bi-person-square"></i>
+                    <i class="bi bi-person-circle"></i>
                 </div>
             </div>
         </div>
         <div class="flex-row">
             <app-header class="side-bar"></app-header>
             <div class="main">
-                <div class="home"> <!-- Dashboard -->
-
+                <div id="home" class="home"> <!-- Dashboard -->
+                    <h1>Dashboard</h1>
+                    <div class="content">
+                        <p>Content</p>
+                    </div>
                 </div>
-                <div class="users"> <!-- New Users -->
-
+                <div id="users" class="users"> <!-- New Users -->
+                    <h1>Users</h1>
+                    <div class="content">
+                        <p>Content</p>
+                    </div>
                 </div>
-                <div class="history"> <!-- Recent Orders -->
-
+                <div id="history" class="history"> <!-- Recent Orders -->
+                    <h1>History</h1>
+                    <div class="content">
+                        <p>Content</p>
+                    </div>
                 </div>
-                <div class="medicines"> <!-- Available Medicines in Stock -->
-
+                <div id="medicines" class="medicines"> <!-- Available Medicines in Stock -->
+                    <h1>Medicines</h1>
+                    <div class="content">
+                        <p>Content</p>
+                    </div>
+                </div>
+                <div id="settings" class="settings">
+                    <h1>Settings</h1> <!-- Settings -->
+                    <div id="settings" class="content">
+                        <p>Content</p>
+                    </div>
                 </div>
             </div>
         </div>

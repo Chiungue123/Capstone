@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ScrollService } from '../services/scroll.service';
 
 @Component({
   selector: 'app-header',
@@ -9,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  constructor(private scrollService: ScrollService) {}
+
+  scrollToSection(sectionId: string) {
+    this.scrollService.changeSection(sectionId);
+  }
 }
