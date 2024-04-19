@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --background: #f6f6f9;
+    --content-background: white;       /* Dark mode background */
+    --text-color: black;           /* Dark mode text */
+    --color-primary: #6C9BCF;      /* Dark mode primary color */
+    --brightness-bg: var(--bs-gray-200);
+}
+
+.dark-mode {
+    --background: rgb(23, 23, 23);
+    --content-background: rgb(60, 59, 59);      /* Dark mode background */
+    --text-color: white;            /* Dark mode text */
+    --color-primary: #6C9BCF;       /* Dark mode primary color */
+    --brightness-bg: var(--bs-gray-700);
+}

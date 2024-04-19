@@ -12,17 +12,17 @@
             </div>
             <div class="right">
                 <div class="brightness">
-                    <button type="button" class="light"><i class="bi bi-brightness-high-fill"></i></button>
-                    <button type="button" class="dark"><i class="bi bi-moon-fill"></i></button>
-                </div>
+                    <span class="light" (click)="toggleTheme('light')" [class.active]="!isDarkMode"><i class="bi bi-sun-fill"></i></span>
+                    <span class="dark" (click)="toggleTheme('dark')" [class.active]="isDarkMode"><i class="bi bi-moon-fill"></i></span>
+                </div>           
                 <div class="profile">
                     <p>Hey, {{FirstName}}</p> <!-- Greet By First Name -->
                     <p>{{position}}</p> <!-- Admin or User -->
                 </div>
-                <div class="icon">
+                <div class="icon-profile">
                     <i class="bi bi-person-circle"></i>
                 </div>
-            </div>
+            </div> 
         </div>
         <div class="flex-row">
             <app-header class="side-bar"></app-header>

@@ -1,18 +1,20 @@
 * {
     margin: 0;
     padding: 0;
+    border: none;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    background-color: var(--content-background);
+    color: var(--text-color);
 }
 
 html {
     position: fixed;
-    top: 10;
+    margin-left: 2%;
     overflow-y: auto;
     width: 170px;
     height: 80vh;
     border-radius: 10px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 body {
@@ -23,17 +25,14 @@ body {
     padding: 20px 0;
 }
 
-
 button {
     text-decoration: none;
     background-color: transparent;
-    border: none;
-    color: black;
     transition: transform 0.3s ease;
 }
 
 button:hover {
-    transform: translateX(5px);
+    transform: translateX(8px);
 }
 
 i {

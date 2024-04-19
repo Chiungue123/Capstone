@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   user!: User;
   position: string = "Admin";
   FirstName: string = "Rodger";
+  isDarkMode: boolean = false;
 
   constructor(private toastr: ToastrService,
               private router: Router,
@@ -43,8 +44,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("Dashboard Page: NgOnInit");
-    this.sectionSubscription = this.scrollService.currentSection.subscribe(section => {
+      this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+      this.updateTheme();
+
+      this.sectionSubscription = this.scrollService.currentSection.subscribe(section => {
       this.scrollToSection(section);
     });
   }
@@ -66,6 +69,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login'])
     } else {
        console.log("Registration Page: Email Verified")
+    }
+  }
+
+  toggleTheme(value: string) {
+    if (value === 'dark') {
+      this.isDarkMode = true;
+    } else {
+      this.isDarkMode = false;
+    }
+    localStorage.setItem('darkMode', this.isDarkMode.toString());
+    this.updateTheme();
+  }
+  
+  updateTheme() {
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
     }
   }
 
