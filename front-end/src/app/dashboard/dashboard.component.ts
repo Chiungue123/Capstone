@@ -6,13 +6,19 @@ import { Router } from '@angular/router';
 import { User } from '../models/user';
 import { Subscription } from 'rxjs';
 import { ScrollService } from '../services/scroll.service';
+import { HistoryComponent } from '../history/history.component';
+import { MedicineComponent } from '../medicine/medicine.component';
+import { UserComponent } from '../user/user.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    UserComponent,
+    HistoryComponent,
+    MedicineComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

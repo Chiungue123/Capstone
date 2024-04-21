@@ -19,6 +19,7 @@ body {
     height: 100vh;
     width: 100vw;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .flex-row::-webkit-scrollbar {
@@ -27,7 +28,7 @@ body {
 
 .main {
     width: 80%;
-    height: 2000px;
+    height: 2500px;
     display: flex;
     flex-direction: column;
     margin-left: 17%;
@@ -55,6 +56,44 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+/****************************************************************************************
+  
+   ========= INSTEAD OF A COLOR GRADIENT, USE A OPACITY GRADIENT ========
+ 
+ ****************************************************************************************
+        
+
+.relative {
+    position: fixed;
+    display: block;
+    min-width: 100%;
+    height: 20px;
+    overflow: hidden;
+    background-image: linear-gradient(180deg, var(--background), var(--content-background));
+}
+
+.button-container-1 button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00dbde, #fc00ff);
+    opacity: 0;
+    transition: opacity .5s;
+} 
+
+.top::before {
+    content: "";
+    top: 0; 
+    right: 0;
+    width: 100%;
+    height: 2%;
+    background-image: linear-gradient(180deg, var(--background), var(--content-background));
+    z-index: -1;
+}*/
 
 .top .logo {
     width: 10%;

@@ -27,6 +27,9 @@
         <div class="flex-row">
             <app-header class="side-bar"></app-header>
             <div class="main">
+                <div class="relative">
+                    <span class="fade-gradient"></span> <!-- Gradient Effect -->
+                </div>
                 <div id="home" class="home"> <!-- Dashboard -->
                     <h1>Dashboard</h1>
                     <div class="content">
@@ -36,19 +39,19 @@
                 <div id="users" class="users"> <!-- New Users -->
                     <h1>Users</h1>
                     <div class="content">
-                        <p>Content</p>
+                        <app-user></app-user>
                     </div>
                 </div>
                 <div id="history" class="history"> <!-- Recent Orders -->
                     <h1>History</h1>
                     <div class="content">
-                        <p>Content</p>
+                        <app-history></app-history>
                     </div>
                 </div>
                 <div id="medicines" class="medicines"> <!-- Available Medicines in Stock -->
                     <h1>Medicines</h1>
                     <div class="content">
-                        <p>Content</p>
+                        <app-medicine></app-medicine>
                     </div>
                 </div>
                 <div id="settings" class="settings">
