@@ -3,14 +3,52 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Symptom } from '../models/symptom';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
+
 export class SymptomService {
 
   private apiUrl = '${environment.apiUrl}${environment.endpoints.symptoms}';
   private symptomsSubject = new BehaviorSubject<Symptom[]>([]);
   symptom$: Observable<Symptom[]> = this.symptomsSubject.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    this.loadInitialData();
+   }
+
+   private loadInitialData() {
+     this.http.get<Symptom[]>(this.apiUrl).subscribe(symptoms => {
+       this.symptomsSubject.next(symptoms);
+     });
+   }
+
+   getSymptoms() {
+     return this.symptom$;
+   }
+
+   getSymptom(id: Number) {
+     return this.http.get<Symptom>('${this.apiUrl}/${id}');
+   }
+
+   addSymptom(symptom: Symptom) {
+    return this.http.post<Symptom>('${this.apiUrl}/add', symptom).pipe(tap(symptom => {
+      const currentSymptoms = this.symptomsSubject.value;
+      this.symptomsSubject.next([...currentSymptoms, symptom])
+    }))
+   }
+
+   updateSymptom(symptom: Symptom) {
+    return this.http.put<Symptom>('${this.apiUrl}/update', symptom).pipe(tap(updated => {
+      const currentSymptoms = this.symptomsSubject.value;
+      const index = currentSymptoms.findIndex(symptom => symptom.Id === updated.Id);
+      currentSymptoms[index] = updated;
+      this.symptomsSubject.next(currentSymptoms);
+    }))
+   }
+
+   deleteSymptom(id: Number) {
+    return this.http.delete<Symptom>('${this.apiUrl}/delete/${id}').pipe(tap(() => {
+      const currentSymptoms = this.symptomsSubject.value.filter(symptom => symptom.Id !== id);
+      this.symptomsSubject.next(currentSymptoms);
+    }));
+   }
 }

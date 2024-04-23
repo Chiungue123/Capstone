@@ -39,7 +39,7 @@ export class UserService {
   updateUser(user: User) {
     return this.http.put<User>('${this.apiUrl}/update', user).pipe(tap(updated => {
       const currentUsers = this.usersSubject.value;
-      const index = currentUsers.findIndex(u => u.Id === updated.Id);
+      const index = currentUsers.findIndex(user => user.Id === updated.Id);
       currentUsers[index] = updated;
       this.usersSubject.next([...currentUsers]);
     }));
