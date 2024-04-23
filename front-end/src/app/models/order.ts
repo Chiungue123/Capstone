@@ -6,10 +6,9 @@ export class Order {
     private createdOn: Date;
     private modifiedOn: Date;
     private userId: number;
-    private user: any; // Use the appropriate type for User
 
     constructor(id?: number, shipFrom?: string, shipTo?: string, cost?: number, 
-                createdOn?: Date, modifiedOn?: Date, userId?: number, user?: any) {
+                createdOn?: Date, modifiedOn?: Date, userId?: number) {
         this.id = id || 0;
         this.shipFrom = shipFrom || '';
         this.shipTo = shipTo || '';
@@ -17,7 +16,6 @@ export class Order {
         this.createdOn = createdOn || new Date();
         this.modifiedOn = modifiedOn || new Date();
         this.userId = userId || 0;
-        this.user = user || null;
     }
 
     get Id() {
@@ -76,16 +74,7 @@ export class Order {
         this.userId = value;
     }
 
-    get User() {
-        return this.user;
-    }
-
-    set User(value: any) { // Use the appropriate type for User
-        this.user = value;
-    }
-
     toString(): string {
-        return `Order [id=${this.id}, shipFrom=${this.shipFrom}, shipTo=${this.shipTo}, cost=${this.cost}, 
-                createdOn=${this.createdOn}, modifiedOn=${this.modifiedOn}, userId=${this.userId}, user=${this.user}]`;
+        return 'Order [id=${this.id}, shipFrom=${this.shipFrom}, shipTo=${this.shipTo}, cost=${this.cost}, createdOn=${this.createdOn}, modifiedOn=${this.modifiedOn}, userId=${this.userId}]';
     }
 }
