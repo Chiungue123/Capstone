@@ -4,13 +4,13 @@ import { MedicineSymptomId } from '../models/medicine-symptom';
 
 export class MedicineData {
     private id: MedicineSymptomId;
-    private medicine: Medicine;
-    private symptom: Symptom;
+    private medicine: Medicine[];
+    private symptom: Symptom[];
 
-    constructor(id?: MedicineSymptomId, medicine?: Medicine, symptom?: Symptom) {
+    constructor(id?: MedicineSymptomId, medicine?: Medicine[], symptom?: Symptom[]) {
         this.id = id || new MedicineSymptomId(0, 0);
-        this.medicine = medicine || new Medicine();
-        this.symptom = symptom || new Symptom();
+        this.medicine = medicine || [];
+        this.symptom = symptom || [];
     }
 
     get Id() {
@@ -25,7 +25,7 @@ export class MedicineData {
         return this.medicine;
     }
 
-    set Medicine(value: Medicine) {
+    set Medicine(value: Medicine[]) {
         this.medicine = value;
     }
 
@@ -33,7 +33,7 @@ export class MedicineData {
         return this.symptom;
     }
 
-    set Symptom(value: Symptom) {
+    set Symptom(value: Symptom[]) {
         this.symptom = value;
     }
 }
