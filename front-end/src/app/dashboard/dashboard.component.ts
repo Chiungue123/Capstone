@@ -7,8 +7,14 @@ import { User } from '../models/user';
 import { Subscription } from 'rxjs';
 import { ScrollService } from '../services/scroll.service';
 import { HistoryComponent } from '../history/history.component';
-import { MedicineComponent } from '../medicine/medicine.component';
+import { MedicineComponent } from '../medicine-details/medicine.component';
 import { UserComponent } from '../user/user.component';
+import { MedicineDataService } from '../services/medicine-data.service';
+import { MedicineData } from '../models-dashboard/medicine-data';
+import { OrderManagementService } from '../services/order-management.service';
+import { History } from '../models-dashboard/history';
+import { MedicineCardComponent } from '../medicine-card/medicine-card.component';
+import { CommonModule, NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,11 +24,15 @@ import { UserComponent } from '../user/user.component';
     HeaderComponent,
     UserComponent,
     HistoryComponent,
-    MedicineComponent
+    MedicineComponent,
+    MedicineCardComponent,
+    CommonModule,
+    NgForOf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
+
 export class DashboardComponent implements OnInit, OnDestroy {
 
   private sectionSubscription!: Subscription;
@@ -31,12 +41,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   position: string = "Admin";
   FirstName: string = "Rodger";
   isDarkMode: boolean = false;
+  medicines!: MedicineData[];
+  history!: History[];
 
-  constructor(private toastr: ToastrService,
-              private router: Router,
-              private scrollService: ScrollService) {
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private scrollService: ScrollService,
+    private medicineDataService: MedicineDataService,
+    private historyService: OrderManagementService
+  ) {
+    this.loadMedicineData();
+  }
 
-    /*const navigation = this.router.getCurrentNavigation();
+  /*
+  const navigation = this.router.getCurrentNavigation();
 
     if (navigation && navigation.extras && navigation.extras.state) {
       
@@ -46,8 +65,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log("User: ", this.user);
 
       this.validateUser(this.user);
-    }*/
-  }
+    }
+  */
 
   ngOnInit() {
       this.isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -55,6 +74,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       this.sectionSubscription = this.scrollService.currentSection.subscribe(section => {
       this.scrollToSection(section);
+    });
+  }
+
+  loadMedicineData() {
+    //this.medicineDataService.generateTestData();
+
+    this.medicineDataService.getMedicineData().subscribe(medicine => {
+      this.medicines = medicine;
+      console.log("Medicine Data: ", this.medicines);
     });
   }
 

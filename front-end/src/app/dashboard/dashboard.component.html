@@ -51,7 +51,7 @@
                 <div id="medicines" class="medicines"> <!-- Available Medicines in Stock -->
                     <h1>Medicines</h1>
                     <div class="content">
-                        <app-medicine></app-medicine>
+                        <app-medicine-card *ngFor="let medicine of medicines" [medicine]="medicine"></app-medicine-card>
                     </div>
                 </div>
                 <div id="settings" class="settings">

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Medicine } from '../models/medicine';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 
 export class MedicineService {
 
-  private apiUrl = '${environment.apiUrl}${environment.endpoints.medicines}';
+  private apiUrl = environment.apiUrl + environment.endpoints.medicines;
   private medicinesSubject = new BehaviorSubject<Medicine[]>([]);
   medicine$: Observable<Medicine[]> = this.medicinesSubject.asObservable();
 

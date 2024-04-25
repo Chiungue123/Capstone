@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Order } from '../models/order';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' }) 
 
 export class OrderService {
 
-  private apiUrl = '${environment.apiUrl}${environment.endpoints.orders}';
+  private apiUrl = environment.apiUrl + environment.endpoints.orders;
   private ordersSubject = new BehaviorSubject<Order[]>([]);
   order$: Observable<Order[]> = this.ordersSubject.asObservable();
 

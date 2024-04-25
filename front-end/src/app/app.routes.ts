@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { SignInComponent } from './sign-in/sign-in.component';
-import { MedicineComponent } from './medicine/medicine.component';
+import { MedicineComponent } from './medicine-details/medicine.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrderComponent } from './order/order.component';
 import { HeaderComponent } from './header/header.component';

@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { MedicineSymptom, MedicineSymptomId } from '../models/medicine-symptom';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 
 export class MedicineSymptomService {
 
-  private apiUrl = '${environment.apiUrl}${environment.endpoints.medicineSymptoms}';
+  private apiUrl = environment.apiUrl + environment.endpoints.medicineSymptoms;
   private medicineSymptomsSubject = new BehaviorSubject<MedicineSymptom[]>([]);
   medicineSymptom$: Observable<MedicineSymptom[]> = this.medicineSymptomsSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loadInitialData();
+    //this.loadInitialData();
   }
 
   private loadInitialData() {
+    console.log("Loading MedicineSymptoms: URL = ", this.apiUrl)
     this.http.get<MedicineSymptom[]>(this.apiUrl).subscribe(medicineSymptoms => {
+      console.log("Loaded MedicineSymptoms: ", medicineSymptoms);
       this.medicineSymptomsSubject.next(medicineSymptoms);
     });
   }
