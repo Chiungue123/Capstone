@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { MedicineData } from '../models-dashboard/medicine-data';
-import { MedicineDataService } from '../services/medicine-data.service';
+import { MedicineData } from '../dashboard-models/medicine-data';
+import { MedicineDataService } from '../dashboard-services/medicine-data.service';
 
 @Component({
   selector: 'app-medicine-details',

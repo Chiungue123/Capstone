@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SymptomService } from './symptom.service';
-import { MedicineService } from './medicine.service';
-import { MedicineSymptomService } from './medicine-symptom.service';
+import { SymptomService } from '../services/symptom.service';
+import { MedicineService } from '../services/medicine.service';
+import { MedicineSymptomService } from '../services/medicine-symptom.service';
 import { MedicineSymptom, MedicineSymptomId } from '../models/medicine-symptom';
-import { MedicineData } from '../models-dashboard/medicine-data';
+import { MedicineData } from '../dashboard-models/medicine-data';
 import { BehaviorSubject, Observable, catchError, forkJoin, map, take, tap, throwError } from 'rxjs';
 import { Symptom } from '../models/symptom';
 import { Medicine } from '../models/medicine';

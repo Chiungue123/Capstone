@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Medicine } from '../models/medicine';
-import { MedicineData } from '../models-dashboard/medicine-data';
+import { MedicineData } from '../dashboard-models/medicine-data';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, NgForOf } from '@angular/common';
 

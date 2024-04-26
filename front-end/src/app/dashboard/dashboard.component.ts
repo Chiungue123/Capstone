@@ -9,10 +9,10 @@ import { ScrollService } from '../services/scroll.service';
 import { HistoryComponent } from '../history/history.component';
 import { MedicineComponent } from '../medicine-details/medicine.component';
 import { UserComponent } from '../user/user.component';
-import { MedicineDataService } from '../services/medicine-data.service';
-import { MedicineData } from '../models-dashboard/medicine-data';
-import { OrderManagementService } from '../services/order-management.service';
-import { History } from '../models-dashboard/history';
+import { MedicineDataService } from '../dashboard-services/medicine-data.service';
+import { MedicineData } from '../dashboard-models/medicine-data';
+import { OrderManagementService } from '../dashboard-services/order-management.service';
+import { History } from '../dashboard-models/history';
 import { MedicineCardComponent } from '../medicine-card/medicine-card.component';
 import { CommonModule, NgForOf } from '@angular/common';
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { OrderService } from './orders.service';
-import { OrderItemService } from './order-item.service';
-import { MedicineService } from './medicine.service';
-import { History } from '../models-dashboard/history';
+import { OrderService } from '../services/orders.service';
+import { OrderItemService } from '../services/order-item.service';
+import { MedicineService } from '../services/medicine.service';
+import { History } from '../dashboard-models/history';
 
 @Injectable({ providedIn: 'root' })
 
