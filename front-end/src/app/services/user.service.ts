@@ -12,7 +12,7 @@ export class UserService {
   user$: Observable<User[]> = this.usersSubject.asObservable();
   
   constructor(private http: HttpClient) {
-    this.loadInitialData();
+    //this.loadInitialData();
   }
 
   private loadInitialData() {
@@ -50,6 +50,16 @@ export class UserService {
       const currentUsers = this.usersSubject.value.filter(user => user.Id !== id);
       this.usersSubject.next(currentUsers);
     }));
+  }
+
+  generateTestData() {
+    const testData = [
+      new User(1, 'John', 'Doe', 'johndoe', 'password'),
+      new User(2, 'Jane', 'Doe', 'janedoe', 'password'),
+      new User(3, 'John', 'Smith', 'johnsmith', 'password')
+    ]
+
+    this.usersSubject.next(testData);
   }
 }
 

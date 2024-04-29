@@ -42,7 +42,7 @@ export class OrderItemService {
       tap(updated => {
         const currentOrderItems = this.orderItemsSubject.value;
         const index = currentOrderItems.findIndex(item => 
-          item.Id.OrderId === updated.Id.OrderId && item.Id.MedicineId === updated.Id.MedicineId);
+          item.Id.orderId === updated.Id.orderId && item.Id.medicineId === updated.Id.medicineId);
       currentOrderItems[index] = updated;
       this.orderItemsSubject.next([...currentOrderItems]);
     }));
@@ -51,8 +51,8 @@ export class OrderItemService {
   deleteOrderItem(id: OrderItemId) {
     return this.http.delete<OrderItem>('${this.apiUrl}/delete/${id.orderId}/${id.medicineId}').pipe(tap(() => {
       const currentOrderItems = this.orderItemsSubject.value.filter(orderItem => 
-        orderItem.Id.MedicineId !== id.MedicineId && 
-        orderItem.Id.OrderId !== id.OrderId);
+        orderItem.Id.medicineId !== id.medicineId && 
+        orderItem.Id.orderId !== id.orderId);
       this.orderItemsSubject.next(currentOrderItems);
     }));
   }

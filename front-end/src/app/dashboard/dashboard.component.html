@@ -39,19 +39,19 @@
                 <div id="users" class="users"> <!-- New Users -->
                     <h1>Users</h1>
                     <div class="content">
-                        <app-user></app-user>
+                        <app-user-card *ngFor="let usr of userData" [user]="user"></app-user-card>
                     </div>
                 </div>
                 <div id="history" class="history"> <!-- Recent Orders -->
-                    <h1>History</h1>
+                    <h1>Orders</h1>
                     <div class="content">
-                        <app-history></app-history>
+                        <app-order-card *ngFor="let order of orderData" [order]="order"></app-order-card>
                     </div>
                 </div>
                 <div id="medicines" class="medicines"> <!-- Available Medicines in Stock -->
                     <h1>Medicines</h1>
                     <div class="content">
-                        <app-medicine-card *ngFor="let medicine of medicines" [medicine]="medicine"></app-medicine-card>
+                        <app-medicine-card *ngFor="let medicine of medicineData" [medicine]="medicine"></app-medicine-card>
                     </div>
                 </div>
                 <div id="settings" class="settings">

@@ -110,7 +110,6 @@ export class MedicineDataService {
         [new Symptom(3, "Symptom 3")]),
     ];
     
-    console.log("Medicine Data Service Test Data: ", medicineData)
     this.medicineDataSubject.next(medicineData);
   }
 }
