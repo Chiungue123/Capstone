@@ -18,11 +18,15 @@ import { OrderData } from '../../dashboard-models/order-data';
 
 export class OrderCardComponent {
 
-  @Input() order!: OrderData;
+  @Input() orderCard!: OrderData;
 
   constructor(private router: Router) { }
 
   ngOnInit() { }
+
+  onLoadOrderDetails(id: number) { 
+    console.log("Load Order Details ID:", id)
+  }
 
   ngOnDestroy() { }
 

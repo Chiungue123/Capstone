@@ -23,5 +23,9 @@ export class MedicineCardComponent {
 
   ngOnInit() { }
 
+  onLoadMedicineDetails(id: number) { 
+    console.log("Load Medicine Details ID:", id)
+  }
+
   ngOnDestroy() { }
 }

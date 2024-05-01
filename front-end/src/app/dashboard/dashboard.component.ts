@@ -7,12 +7,12 @@ import { Subscription } from 'rxjs';
 // Component Imports
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
-import { UserComponent } from '../user-details/user.component';
-import { UserCardComponent } from '../dashboard-cards/user-card/user-card.component';
-import { OrderComponent } from '../order-details/order.component';
-import { OrderCardComponent } from '../dashboard-cards/order-card/order-card.component';
-import { MedicineComponent } from '../medicine-details/medicine.component';
-import { MedicineCardComponent } from '../dashboard-cards/medicine-card/medicine-card.component';
+import { UserComponent } from '../dashboard-components/user-details/user.component';
+import { UserCardComponent } from '../dashboard-components/user-card/user-card.component';
+import { OrderComponent } from '../dashboard-components/order-details/order.component';
+import { OrderCardComponent } from '../dashboard-components/order-card/order-card.component';
+import { MedicineComponent } from '../dashboard-components/medicine-details/medicine.component';
+import { MedicineCardComponent } from '../dashboard-components/medicine-card/medicine-card.component';
 
 // Model Imports
 import { User } from '../models/user';
@@ -88,6 +88,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
+  loadUserDetails(userId: Number) { 
+    console.log("Load User Details")
+    this.router.navigate(['/user-details', userId]);
+  }
+
+  loadUserForm() { 
+    console.log("Load User Form")
+    this.router.navigate(['/user-form']);
+  }
+
+  moreUsers() {
+    console.log("More Users")
+    this.increaseSectionHeight('user');
+  }
+
+  addNewUser() { }
+
+  updateUser() { }
+
+  deleteUser() { }
+
   /*** Medicine Data Section ***/
 
   loadMedicineData() {
@@ -97,6 +118,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log("Medicine Data: ", this.medicineData);
     });
   }
+
+  loadMedicneDetails(medicineId: Number) { 
+    console.log("Load Medicine Details")
+    this.router.navigate(['/medicine-details', medicineId]);
+  }
+
+  loadMedicineForm() {
+    console.log("Load Medicine Form")
+    this.router.navigate(['/medicine-form']);
+  }
+
+  moreMedicines() {
+    console.log("More Medicines")
+    this.increaseSectionHeight('medicine');
+  }
+
+  addNewMedicine() { }
+
+  updateMedicine() { }
+
+  deleteMedicine() { }
 
   /*** Order Data Section ***/
 
@@ -108,6 +150,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  openOrderDetails(orderId: Number) {
+    console.log("Load Order Details")
+    this.router.navigate(['/order-details', orderId]);
+  }
+
+  loadOrderForm() { 
+    console.log("Load Order Form")
+    this.router.navigate(['/order-form']);
+  }
+
+  moreOrders() {
+    console.log("More Orders")
+    this.increaseSectionHeight('order');
+  }
+
+  addNewOrder() { }
+
+  updateOrder() { }
+
+  deleteOrder() { }
 
   /*** Scroll Section ***/
 
@@ -116,6 +178,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (sectionElement) {
       sectionElement.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  increaseSectionHeight(section: string) {
+    let newHeight = `calc(var(--${section}-section-height) + 200px)`;
+    document.documentElement.style.setProperty(`--${section}-section-height`, newHeight)
   }
 
   /*** Validation Section ***/

@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    margin: 0 20px;
+    background-color: transparent;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+i {
+    padding: 10px 0 2px 0;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+p {
+    padding: 5px 0 2px 0;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    font-size: 13px;
+}
+
+button i {
+    font-size: 1em;
+    font-weight: bold;
+}
