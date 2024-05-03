@@ -54,11 +54,11 @@ export class UserService {
 
   generateTestData() {
     const testData = [
-      new User(1, 'John', 'Doe', 'johndoe', 'password'),
-      new User(2, 'Jane', 'Doe', 'janedoe', 'password'),
-      new User(3, 'John', 'Smith', 'johnsmith', 'password')
+      new User(1, 'John', 'Doe', 'johndoe', 'password', 'email@example.com', '123 Main St', '555-555-5555', true, new Date(), new Date()),
+      new User(2, 'Jane', 'Doe', 'janedoe', 'password', 'janedoe@example.com', '456 Elm St', '555-555-5555', false, new Date(), new Date()),
+      new User(3, 'John', 'Smith', 'johnsmith', 'password', 'smith@hotmail.com', '789 Oak St', '555-555-5555', false, new Date(), new Date())
     ]
-
+    
     this.usersSubject.next(testData);
   }
 }

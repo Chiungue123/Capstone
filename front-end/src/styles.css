@@ -7,6 +7,7 @@
     --color-primary: #6C9BCF;      /* Dark mode primary color */
     --brightness-bg: var(--bs-gray-200);
     --dashboard-reg-height: 200px;
+    --input-background: #dfdfdf;
 }
 
 .dark-mode {
@@ -16,4 +17,5 @@
     --text-color: white;            /* Dark mode text */
     --color-primary: #6C9BCF;       /* Dark mode primary color */
     --brightness-bg: var(--bs-gray-700);
+    --input-background: #acacae;
 }

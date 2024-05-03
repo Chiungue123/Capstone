@@ -1,4 +1,71 @@
-<p>User Details</p>
-<!--<p>User ID: {{ user.Id }}</p>
-<p>User Name: {{ user.FirstName }} {{ user.LastName }}</p>
-<p>User Email: {{ user.Email }}</p>-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User-Card</title>
+    </head>
+    <body>
+        <div class="top">
+            <div class="title">
+                <h1>{{ user.FirstName }} {{ user.LastName }}</h1>
+            </div>
+            <div class="brightness">
+                <span class="light" (click)="toggleTheme('light')" [class.active]="!isDarkMode"><i class="bi bi-sun-fill"></i></span>
+                <span class="dark" (click)="toggleTheme('dark')" [class.active]="isDarkMode"><i class="bi bi-moon-fill"></i></span>
+            </div>
+        </div>
+        <form [formGroup]="userForm">
+            <div class="row">
+                <span>User ID:</span>
+                <span class="rtl">{{ user.Id }}</span>
+            </div>
+            <div class="row">
+                <span class="name">First Name: </span> 
+                <span class="rtl" *ngIf="!isEditMode">{{ user.FirstName }}</span>
+                <input *ngIf="isEditMode" formControlName="FirstName" placeholder="First Name">
+            </div>
+            <div class="row">
+                <span class="name">Last Name: </span> 
+                <span class="rtl" *ngIf="!isEditMode">{{ user.LastName }}</span>
+                <input *ngIf="isEditMode" formControlName="LastName" placeholder="Last Name">
+            </div>
+            <div class="row">
+                <span>Username: </span>
+                <span class="rtl" *ngIf="!isEditMode">{{ user.Username }}</span>
+                <input *ngIf="isEditMode" formControlName="Username" placeholder="Username">
+            </div>
+            <div class="row">
+                <span>Email: </span>
+                <span class="rtl" *ngIf="!isEditMode">{{ user.Email }}</span>
+                <input *ngIf="isEditMode" formControlName="Email" placeholder="Email">
+            </div>
+            <div class="row">
+                <span>Phone:</span> 
+                <span class="rtl" *ngIf="!isEditMode">{{ user.Phone }}</span>
+                <input *ngIf="isEditMode" formControlName="Phone" placeholder="Phone">
+            </div>
+                <div class="row">
+                <span>Address: </span>
+                <span class="rtl" *ngIf="!isEditMode">{{ user.Address }}</span>
+                <input *ngIf="isEditMode" formControlName="Address" placeholder="Address">
+            </div>
+            <div class="row">
+               <span>Position: </span><span class="rtl">{{ !user.IsAdmin ? 'User' : 'Admin' }}</span>
+            </div>
+            <div class="row">
+                <span>Created On: </span><span class="rtl">{{ user.CreatedOn | date:"short" }}</span>
+            </div>
+            <div class="row">
+                <span>Last Update: </span><span class="rtl">{{ user.ModifiedOn | date:"short" }}</span>
+            </div>
+    
+            <div class="buttons">
+                <button type="button" class="back" (click)="onGoBack()">Go Back <i class="bi bi-box-arrow-right"></i></button>
+                <button type="button" class="edit" *ngIf="!isEditMode" (click)="isEditMode = true">Edit <i class="bi bi-pencil-square"></i></button>
+                <button type="button" class="update" *ngIf="isEditMode" (click)="onUpdate()">Update <i class="bi bi-send"></i></button>
+                <button type="button" class="delete" (click)="onDelete()">Delete <i class="bi bi-trash"></i></button>
+            </div>
+        </form>
+    </body>
+</html>

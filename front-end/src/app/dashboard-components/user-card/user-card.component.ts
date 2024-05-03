@@ -21,7 +21,7 @@ export class UserCardComponent {
 
   onLoadUserDetails(id: number) {
     console.log("Load User Details ID:", id)
-    this.router.navigate(['/user/details', id]);
+    this.router.navigate(['/user/details', id], {state: {user: this.user}});
   }
 
 }
