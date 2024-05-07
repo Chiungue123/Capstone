@@ -2,42 +2,46 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../models/user';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 
 export class UserService {
 
-  private apiUrl = '${environment.apiUrl}${environment.endpoints.users}';
+  private apiUrl = `${environment.apiUrl}${environment.endpoints.users}`;
   private usersSubject = new BehaviorSubject<User[]>([]);
   user$: Observable<User[]> = this.usersSubject.asObservable();
   
   constructor(private http: HttpClient) {
-    //this.loadInitialData();
+    this.loadInitialData();
   }
 
   private loadInitialData() {
+    console.log("Loading initial data")
+    this.generateTestData();
     this.http.get<User[]>(this.apiUrl).subscribe(users => {
       this.usersSubject.next(users);
     });
   }
 
   getUsers() {
+    console.log("Getting users")
     return this.user$;
   }
 
   getUser(id: Number) {
-    return this.http.get<User>('${this.apiUrl}/${id}');
+    return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
   addUser(user: User) {
-    return this.http.post<User>('${this.apiUrl}/add', user).pipe(tap(user => {
+    return this.http.post<User>(`${this.apiUrl}/add`, user).pipe(tap(user => {
       const currentUsers = this.usersSubject.value;
       this.usersSubject.next([...currentUsers, user])
     }));
   }
 
   updateUser(user: User) {
-    return this.http.put<User>('${this.apiUrl}/update', user).pipe(tap(updated => {
+    return this.http.put<User>(`${this.apiUrl}/update`, user).pipe(tap(updated => {
       const currentUsers = this.usersSubject.value;
       const index = currentUsers.findIndex(user => user.Id === updated.Id);
       currentUsers[index] = updated;
@@ -46,7 +50,7 @@ export class UserService {
   }
 
   deleteUser(id: Number) {
-    return this.http.delete('${this.apiUrl}/delete/${id}').pipe(tap(() => {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`).pipe(tap(() => {
       const currentUsers = this.usersSubject.value.filter(user => user.Id !== id);
       this.usersSubject.next(currentUsers);
     }));
@@ -57,7 +61,7 @@ export class UserService {
       new User(1, 'John', 'Doe', 'johndoe', 'password', 'email@example.com', '123 Main St', '555-555-5555', true, new Date(), new Date()),
       new User(2, 'Jane', 'Doe', 'janedoe', 'password', 'janedoe@example.com', '456 Elm St', '555-555-5555', false, new Date(), new Date()),
       new User(3, 'John', 'Smith', 'johnsmith', 'password', 'smith@hotmail.com', '789 Oak St', '555-555-5555', false, new Date(), new Date())
-    ]
+    ];
     
     this.usersSubject.next(testData);
   }

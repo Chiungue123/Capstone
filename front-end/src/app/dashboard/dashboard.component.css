@@ -16,6 +16,7 @@ body {
 
 .flex-row {
     display: flex;
+    justify-content: space-between;
     gap: 2%;
     height: 100%;
     width: 100%;
@@ -33,11 +34,12 @@ body {
 }
 
 .main {
-    width: 78%;
+    min-width: 80vw;
     height: 2500px;
     display: flex;
     flex-direction: column;
     gap: 2%;
+    margin-right: 2%;
 }
 
 .main h1 {
@@ -48,7 +50,6 @@ body {
     position: relative;
     height: var(--dashboard-reg-height);
     max-width: 100%;
-    padding: 0 20px 0 0; /* 20px top, 0px right, 0px left,  */
     border-radius: 10px;
     background-color: var(--content-background);
     display: flex;

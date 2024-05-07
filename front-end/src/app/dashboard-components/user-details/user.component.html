@@ -23,32 +23,32 @@
             <div class="row">
                 <span class="name">First Name: </span> 
                 <span class="rtl" *ngIf="!isEditMode">{{ user.FirstName }}</span>
-                <input *ngIf="isEditMode" formControlName="FirstName" placeholder="First Name">
+                <input *ngIf="isEditMode" formControlName="firstName" placeholder="First Name">
             </div>
             <div class="row">
                 <span class="name">Last Name: </span> 
                 <span class="rtl" *ngIf="!isEditMode">{{ user.LastName }}</span>
-                <input *ngIf="isEditMode" formControlName="LastName" placeholder="Last Name">
+                <input *ngIf="isEditMode" formControlName="lastName" placeholder="Last Name">
             </div>
             <div class="row">
                 <span>Username: </span>
                 <span class="rtl" *ngIf="!isEditMode">{{ user.Username }}</span>
-                <input *ngIf="isEditMode" formControlName="Username" placeholder="Username">
+                <input *ngIf="isEditMode" formControlName="username" placeholder="Username">
             </div>
             <div class="row">
                 <span>Email: </span>
                 <span class="rtl" *ngIf="!isEditMode">{{ user.Email }}</span>
-                <input *ngIf="isEditMode" formControlName="Email" placeholder="Email">
+                <input *ngIf="isEditMode" formControlName="email" placeholder="Email">
             </div>
             <div class="row">
                 <span>Phone:</span> 
                 <span class="rtl" *ngIf="!isEditMode">{{ user.Phone }}</span>
-                <input *ngIf="isEditMode" formControlName="Phone" placeholder="Phone">
+                <input *ngIf="isEditMode" formControlName="phone" placeholder="Phone">
             </div>
                 <div class="row">
                 <span>Address: </span>
                 <span class="rtl" *ngIf="!isEditMode">{{ user.Address }}</span>
-                <input *ngIf="isEditMode" formControlName="Address" placeholder="Address">
+                <input *ngIf="isEditMode" formControlName="address" placeholder="Address">
             </div>
             <div class="row">
                <span>Position: </span><span class="rtl">{{ !user.IsAdmin ? 'User' : 'Admin' }}</span>
@@ -64,7 +64,7 @@
                 <button type="button" class="back" (click)="onGoBack()">Go Back <i class="bi bi-box-arrow-right"></i></button>
                 <button type="button" class="edit" *ngIf="!isEditMode" (click)="isEditMode = true">Edit <i class="bi bi-pencil-square"></i></button>
                 <button type="button" class="update" *ngIf="isEditMode" (click)="onUpdate()">Update <i class="bi bi-send"></i></button>
-                <button type="button" class="delete" (click)="onDelete()">Delete <i class="bi bi-trash"></i></button>
+                <button type="button" class="delete" (click)="onDelete(user)">Delete <i class="bi bi-trash"></i></button>
             </div>
         </form>
     </body>

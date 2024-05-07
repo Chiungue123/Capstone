@@ -11,9 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsGlobalConfiguration {
 
-	/*
 	@Bean
-    public CorsFilter corsFilter() {
+    CorsFilter corsFilter() {
 		System.out.println("================================");
 		System.out.println("Custom CORS Configuration Loaded");
 		System.out.println("================================");
@@ -29,10 +28,9 @@ public class CorsGlobalConfiguration {
 
         return new CorsFilter(source);
     }
-	*/
 	
 	@Bean
-    public WebMvcConfigurer corsConfigurer() {
+    WebMvcConfigurer corsConfigurer() {
 		System.out.println("================================");
 		System.out.println("Custom WebMvcConfigurer Loaded");
 		System.out.println("================================");

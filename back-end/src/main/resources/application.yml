@@ -3,7 +3,7 @@ spring:
     #url: jdbc:mysql:db-container/capstone
     url: jdbc:mysql://localhost:3306/capstone # Default, overridden in prod profile
     username: root
-    password: root1
+    password: rootpassword
   jpa:
     hibernate:
       ddl-auto: create

@@ -2,6 +2,9 @@ package com.capstone.backend.jpa;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,9 +45,11 @@ public class User {
     private Boolean isAdmin;
 
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdOn;
 
     @Column(nullable = false)
+    @UpdateTimestamp
     private LocalDateTime modifiedOn;
 
 	public User(Byte id, String firstName, String lastName, 

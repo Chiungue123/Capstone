@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  #frontend:
+  #  build:
+  #    context: ./front-end
+  #    dockerfile: Dockerfile
+  #  image: 
+  #    frontend:latest
+  #  volumes:
+  #    - ./front-end:/app # Mounts the source code of the Angular app into the container
+  #    - /app/node_modules # Ensures node_modules are not overwritten by the host's volume
+  #  ports:
+  #    - "4200:4200"
+  #  environment:
+  #    - CHOKIDAR_USEPOLLING=true # Ensures file changes are detected in Docker environments
+  #  restart: always
+
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    image:
+      backend:latest
+    #volumes:
+    #  - ./back-end:/app # Mounts the source code of the Spring Boot app into the container
+    ports:
+      - "8000:8000"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-container:3306/capstone
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rootpassword
+    depends_on:
+      - db-container
+    restart: always
+
+  db-container:
+   image: mysql:8
+   environment:
+     MYSQL_DATABASE: 'capstone'
+     MYSQL_ROOT_PASSWORD: 'rootpassword' # Change as necessary
+   ports:
+     - "3306:3306"
+   volumes:
+     - db-data:/var/lib/mysql
+   restart: always
+
+volumes:
+  db-data:

@@ -20,7 +20,8 @@ import com.capstone.backend.service.UserService;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	/*
@@ -31,10 +32,18 @@ public class UserController {
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	@GetMapping("/test")
+	public List<User> test() {
+		
+		logger.info("User - Controller - Test");
+		return this.service.generateTest();
+	}
+	
+	
 	@PostMapping("/add")
 	public User addUser(@RequestBody User user) {
 		
-		logger.info("User - Controller - Add User: ", user);
+		logger.info("User - Controller - Add User: " + user);
 		return this.service.addUser(user);
 	}
 	
@@ -45,17 +54,24 @@ public class UserController {
 		return this.service.getUsers();
 	}
 	
+	@GetMapping("/{id}")
+	public User getUser(@PathVariable Byte id) {
+
+		logger.info("User - Controller - Get User ID: " + id);
+		return this.service.getUser(id);
+	}
+	
 	@PutMapping("/update/{id}")
 	public User updateUser(@RequestBody User user, @PathVariable("id") Byte id) {
 		
-		logger.info("User - Controller - Update User ID: ", id, user);
+		logger.info("User - Controller - Update User ID: " + id, user);
 		return this.service.updateUser(id, user);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public void deleteUser(@PathVariable("id") Byte id) {
 		
-		logger.info("User - Controller - Delete User id: ", id);
+		logger.info("User - Controller - Delete User id: " + id);
 		this.service.deleteUser(id);
 	}
 	

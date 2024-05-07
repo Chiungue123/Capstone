@@ -6,6 +6,7 @@ import { OrderData } from '../dashboard-models/order-data';
 import { Order } from '../models/order';
 import { OrderItem } from '../models/order-item';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import { MedicineSymptomService } from '../services/medicine-symptom.service';
 
 @Injectable({ providedIn: 'root' })
 
@@ -19,7 +20,27 @@ export class OrderManagementService {
   constructor(
     private orderService: OrderService,
     private orderItemService: OrderItemService,
-    private medicineService: MedicineService) { }
+    private medicineService: MedicineService,
+    private medicineSymptomService: MedicineSymptomService) { }
+
+  private loadInitialData() {
+    // Fetch All Orders
+    this.orderService.getOrders().subscribe(orders => {});
+
+    // Fetch All Order Items for Orders
+    this.orderItemService.getOrderItems().subscribe(orderItems => {});
+
+    // Fetch All Medicines for Order Items
+    this.medicineService.getMedicines().subscribe(medicines => {});
+
+    // Fetch All Symptoms for Medicines
+    this.medicineSymptomService.getMedicineSymptoms().subscribe(symptoms => {});
+
+    // Combine all data into OrderData objects
+
+    // Update orderDataSubject with new data
+
+  }
 
   getOrderData() {
     return this.orderData$;

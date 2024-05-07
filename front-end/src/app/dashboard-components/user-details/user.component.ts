@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
@@ -30,47 +30,39 @@ export class UserComponent {
   constructor(
     private route: ActivatedRoute, 
     private router: Router, 
-    private userService: UserService
+    private userService: UserService,
+    private fb: FormBuilder
   ) {
     const navigation = this.router.getCurrentNavigation();
 
     if (navigation && navigation.extras && navigation.extras.state) {
       const state = navigation.extras.state as { user: User }
       this.user = state.user;
+      console.log("User Details: User from State: ", this.user);
     }
   }
 
   ngOnInit() { 
-    console.log("NgOnInit User Details Page ");
-    console.log("User Details: ", this.user);
-    this.initializeForm();
+    this.initializeForm(this.user);
   }
 
-  initializeForm(): FormGroup {
-    this.userForm = new FormGroup({
-      id: new FormControl(''),
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
-      username: new FormControl(''),
-      email: new FormControl(''),
-      address: new FormControl(''),
-      phone: new FormControl(''),
-      isAdmin: new FormControl(''),
-      createdOn: new FormControl(''),
-      modifiedOn: new FormControl('')
+  initializeForm(user: User): FormGroup {
+    this.userForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      address: ['', Validators.required],
+      phone: ['', Validators.required]
     })
 
     this.userForm.patchValue({
-      id: this.user.Id,
-      firstName: this.user.FirstName,
-      lastName: this.user.LastName,
-      username: this.user.Username,
-      email: this.user.Email,
-      address: this.user.Address,
-      phone: this.user.Phone,
-      isAdmin: this.user.IsAdmin,
-      createdOn: this.user.CreatedOn,
-      modifiedOn: this.user.ModifiedOn
+      firstName: user.FirstName,
+      lastName: user.LastName,
+      username: user.Username,
+      email: user.Email,
+      address: user.Address,
+      phone: user.Phone
     });
 
     return this.userForm;
@@ -80,16 +72,12 @@ export class UserComponent {
 
     console.log("User Details: Submitting User Details: ", this.userForm.value);
 
-    this.user.Id = this.userForm.value.id;
     this.user.FirstName = this.userForm.value.firstName;
     this.user.LastName = this.userForm.value.lastName;
     this.user.Username = this.userForm.value.username;
     this.user.Email = this.userForm.value.email;
     this.user.Address = this.userForm.value.address;
     this.user.Phone = this.userForm.value.phone;
-    this.user.IsAdmin = this.userForm.value.isAdmin;
-    this.user.CreatedOn = this.userForm.value.createdOn;
-    this.user.ModifiedOn = this.userForm.value.modifiedOn;
 
     console.log("User Details: Updated User: ", this.user);
 
@@ -104,8 +92,18 @@ export class UserComponent {
     });
   }
 
-  onDelete() {
+  onDelete(user: User) {
+    console.log("User Details: Deleting User: ", this.user);
 
+    this.userService.deleteUser(this.user.Id).subscribe({
+      next: () => {
+        console.log("User Details: User Deleted: ", this.user);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error: any) => {
+        console.log("User Details: Error Deleting User: ", error);
+      }
+    });
   }
 
   onGoBack() {

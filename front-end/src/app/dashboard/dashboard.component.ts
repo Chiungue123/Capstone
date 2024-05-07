@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.userService.generateTestData();
     this.userService.getUsers().subscribe(users => {
       this.userData = users;
-      console.log("User Data: ", this.userData);
+      console.log("Users: ", users);
     })
   }
 

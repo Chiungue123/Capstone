@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:8500/',
+    apiUrl: 'http://localhost:8000/',
     endpoints: {
         auth: 'auth',
         medicines: 'medicines',
