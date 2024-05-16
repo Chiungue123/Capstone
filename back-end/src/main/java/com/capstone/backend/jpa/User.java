@@ -35,7 +35,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(length = 100)
+    @Column(nullable = false, length = 100)
     private String address;
 
     @Column(length = 20)
@@ -51,6 +51,8 @@ public class User {
     @Column(nullable = false)
     @UpdateTimestamp
     private LocalDateTime modifiedOn;
+    
+	public User() {}
 
 	public User(Byte id, String firstName, String lastName, 
 			String username, String password, 
@@ -161,9 +163,9 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
-				+ ", password=" + password + ", email=" + email + ", address=" + address + ", phone=" + phone
-				+ ", isAdmin=" + isAdmin + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn + "]";
+		return "\nUser [id=" + id + ", \nfirstName=" + firstName + ", \nlastName=" + lastName + ", \nusername=" + username
+				+ ", \npassword=" + password + ", \nemail=" + email + ", \naddress=" + address + ", \nphone=" + phone
+				+ ", \nisAdmin=" + isAdmin + ", \ncreatedOn=" + createdOn + ", \nmodifiedOn=" + modifiedOn + "]";
 	}
 	
 }

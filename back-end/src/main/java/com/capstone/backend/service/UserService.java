@@ -1,6 +1,7 @@
 package com.capstone.backend.service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,8 +18,6 @@ public class UserService {
 	/*
 	 * USE THE OPTIONAL CLASS
 	 */
-
-	// @Autowired User user;
 	
 	@Autowired UserRepository repo;
 	
@@ -26,8 +25,8 @@ public class UserService {
 	
 	public User addUser(User user) {
 		
-		logger.info("User - Service - Add Users");
-		return null;
+		logger.info("User - Service - Add User: " + user.toString());
+		return this.repo.save(user);
 	}
 	
 	public List<User> getUsers() {
@@ -44,9 +43,23 @@ public class UserService {
 
 	public User updateUser(Byte id, User user) {
 		
-		logger.info("User - Service - Update User ID: " + id);
-		logger.info("User - Service - Updating User Info: " + user.toString());
-		return null;
+		//logger.info("User - Service - Update User ID: " + id);
+		//logger.info("User - Service - Updating User Info: " + user.toString());
+		
+		this.repo.findById(id).ifPresent(u -> {
+            u.setFirstName(user.getFirstName());
+            u.setLastName(user.getLastName());
+            u.setUsername(user.getUsername());
+            u.setEmail(user.getEmail());
+            u.setAddress(user.getAddress());
+            u.setPhone(user.getPhone());
+            u.setIsAdmin(user.getIsAdmin());
+            u.setCreatedOn(user.getCreatedOn());
+            u.setModifiedOn(LocalDateTime.now());
+            this.repo.save(u);
+        });
+		
+		return this.repo.findById(id).get();
 	}
 
 	public void deleteUser(Byte id) {
@@ -55,27 +68,4 @@ public class UserService {
 		this.repo.deleteById(id);
 	}	
 	
-	public List<User> generateTest() {
-
-		logger.info("User - Service - Generate Test Users");
-		User user1 = new User((byte) 1, "John", "Doe", "johndoe", "password", "email", "address", "phone", false, LocalDateTime.now(), LocalDateTime.now());
-		
-		return List.of(user1);
-	}
-	
-	/*private boolean validateUser(User user) {
-
-		logger.info("User - Service - Validate User");
-		
-		
-		
-	}*/
-	
-	/*
-	 * 	Verification
-	 * - Validate new users and their attributes
-	 * 	# When deleting a user, check for orders that are placed for this user. 
-	 * 	# End user needs to be notified to deal with this
-	 *  # Either delete the other orders or cancel the removal of the user
-	 */
 }

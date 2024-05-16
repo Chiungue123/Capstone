@@ -20,8 +20,7 @@ import com.capstone.backend.service.UserService;
 
 @RestController
 @RequestMapping("/users")
-//@CrossOrigin(origins = "http://localhost:4200")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
 	/*
@@ -31,15 +30,7 @@ public class UserController {
 	@Autowired UserService service;
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@GetMapping("/test")
-	public List<User> test() {
-		
-		logger.info("User - Controller - Test");
-		return this.service.generateTest();
-	}
-	
-	
+
 	@PostMapping("/add")
 	public User addUser(@RequestBody User user) {
 		
@@ -50,7 +41,7 @@ public class UserController {
 	@GetMapping()
 	public List<User> getUsers() {
 		
-		logger.info("User - Controller - Get Owners");
+		logger.info("User - Controller - Get Users");
 		return this.service.getUsers();
 	}
 	
