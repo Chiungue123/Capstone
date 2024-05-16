@@ -19,9 +19,9 @@ export class UserCardComponent {
 
   ngOnDestroy() { }
 
-  onLoadUserDetails(id: number) {
-    console.log("Load User Details ID:", id)
-    this.router.navigate(['/user/details', id], {state: {user: this.user}});
+  onLoadUserDetails(user: User) {
+    console.log("Loading User Details ID:", user.Id)
+    this.router.navigate(['/user-details'], {state: {user: user, mode: "view"}});
   }
 
 }

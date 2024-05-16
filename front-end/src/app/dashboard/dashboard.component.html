@@ -37,7 +37,7 @@
                 <div id="users" class="users"> <!-- New Users -->
                     <h1>Users</h1>
                     <div class="content">
-                        <app-user-card *ngFor="let user of userData" [user]="user"></app-user-card>
+                        <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
                         <div class="add-user" (click)="loadUserForm()">
                             <i class="bi bi-plus-lg"></i>
                             <p>New User</p>

@@ -96,14 +96,28 @@ form p {
     max-width: 40%;
 }
 
+.row label {
+    max-width: 40%;
+    text-align: right;
+    align-self: center;
+}
+
 .row input {
     max-width: 60%;
     text-align: center;
     align-self: flex-end;
 }
 
+input:focus {
+    outline: none;
+}
+
 .rtl {
     text-align: right;
+}
+
+.ltr {
+    text-align: left;
 }
 
 .name {
@@ -118,11 +132,18 @@ form p {
 
 input {
     max-width: 350px;
-    min-width: 150px;
     border: none;
     border-radius: 20px;
     background-color: var(--input-background);
     padding: 5px 10px;
+}
+
+.checkbox {
+    height: 18px;
+    width: 20px;
+    background-color: var(--input-background);
+    border: none;
+    outline: none;
 }
 
 h2 input {
@@ -135,6 +156,8 @@ button {
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
 
 button i {
@@ -149,16 +172,19 @@ button i {
     width: 100%;
 }
 
-.back, .edit, .update, .delete{
-    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
-    transition: 0.3s;
-}
-
 .back {
     background-color: #007bff;
 }
 
-.edit, .update {
+.back:hover {
+    background-color: #0056b3;
+}
+
+.edit, .update, .add{
+    background-color: #dca501;
+}
+
+.edit:hover, .update:hover, .add:hover {
     background-color: #ffc107;
 }
 
@@ -166,9 +192,12 @@ button i {
     background-color: #dc3545;
 }
 
-.back:hover {
+.delete:hover {
+    background-color: #bd2130;
+}
+
+button:hover {
     cursor: pointer;
     transform: translateY(-2px);
-    background-color: #3898fe;
 }
 

@@ -7,7 +7,7 @@ export class User {
     private email: string;
     private address: string;
     private phone: string;
-    private isAdmin: boolean;
+    private isAdmin: Boolean;
     private createdOn: Date;
     private modifiedOn: Date;
 
@@ -20,7 +20,7 @@ export class User {
         email?: string,
         address?: string,
         phone?: string,
-        isAdmin?: boolean,
+        isAdmin?: Boolean,
         createdOn?: Date,
         modifiedOn?: Date
     ) {
@@ -36,6 +36,40 @@ export class User {
         this.createdOn = createdOn || new Date();
         this.modifiedOn = modifiedOn || new Date();
     }
+
+    setUser(userObj: any) {
+        this.id = userObj.id || 0;
+        this.firstName = userObj.firstName || '';
+        this.lastName = userObj.lastName || '';
+        this.username = userObj.username || '';
+        this.password = userObj.password || '';
+        this.email = userObj.email || '';
+        this.address = userObj.address || '';
+        this.phone = userObj.phone || '';
+        this.isAdmin = userObj.isAdmin || false;
+        this.createdOn = userObj.createdOn ? new Date(userObj.createdOn) : new Date();
+        this.modifiedOn = userObj.modifiedOn ? new Date(userObj.modifiedOn) : new Date();
+    }
+
+    /*** 
+    Difference between get Id() and getId()
+
+    get Id() is a getter method in TypeScript, which allows you to access the 'id' property like a property, not a method. 
+    For example, you can do 'let userId = user.Id;' without calling 'Id' as a function.
+
+    getId() is a regular method, and you would need to call it as a function to get the 'id'. 
+    For example, you would do 'let userId = user.getId();'.
+
+    Potential issues with different casing in backend and frontend:
+
+    If your backend is sending data in camelCase (like 'id', 'firstName', etc.) and your frontend is using PascalCase for getters and setters (like 'Id', 'FirstName', etc.), 
+    it could potentially cause issues when you're trying to map the data from the backend to your User model in the frontend.
+
+    The properties in the JSON object from the backend would not match the names of the getters and setters in your User model, 
+    so you would need to manually map each property from the backend data to the corresponding getter/setter in your User model.
+
+    To avoid this issue, it's generally a good practice to keep the casing consistent across your backend and frontend.
+    ***/
 
     get Id() {
         return this.id;
@@ -105,7 +139,7 @@ export class User {
         return this.isAdmin;
     }
 
-    set IsAdmin(value: boolean) {
+    set IsAdmin(value: Boolean) {
         this.isAdmin = value;
     }
 

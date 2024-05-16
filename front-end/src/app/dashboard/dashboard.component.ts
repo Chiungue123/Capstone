@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 
 // Component Imports
 import { HeaderComponent } from '../header/header.component';
@@ -47,12 +47,13 @@ import { UserService } from '../services/user.service';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   private sectionSubscription!: Subscription;
+  private userSubscription!: Subscription;
 
-  user!: User;
   position: string = "Admin";
   FirstName: string = "Rodger";
   isDarkMode: boolean = false;
-  userData: User[] = [];
+  userData: User[] = []; // When receiving raw JSON
+  users: User[] = []; // Collects User Objects from JSON
   medicineData: MedicineData[] = [];
   orderData: OrderData[] = [];
 
@@ -63,17 +64,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private medicineDataService: MedicineDataService,
     private orderDataService: OrderManagementService
-  ) {
-    this.loadUserData();
-    this.loadOrderData();
-    this.loadMedicineData(); 
+  ) { 
+    //this.loadOrderData();
+    //this.loadMedicineData(); 
   }
 
-  ngOnInit() {
-      this.isDarkMode = localStorage.getItem('darkMode') === 'true';
-      this.updateTheme();
+  ngOnInit(): void {
+    this.loadUserData();
 
-      this.sectionSubscription = this.scrollService.currentSection.subscribe(section => {
+    this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+    this.updateTheme();
+
+    this.sectionSubscription = this.scrollService.currentSection.subscribe(section => {
       this.scrollToSection(section);
     });
   }
@@ -81,21 +83,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /*** User Data Section ***/
 
   loadUserData() {
-    this.userService.generateTestData();
-    this.userService.getUsers().subscribe(users => {
-      this.userData = users;
-      console.log("Users: ", users);
+    this.userSubscription = this.userService.getUsers().pipe().subscribe({
+      next: (userData: User[]) => {
+        this.users = userData.map(user => 
+          new User(user['id'], user['firstName'], user['lastName'], user['username'], '', user['email'],
+           user['address'], user['phone'], user['isAdmin'], user['createdOn'], user['modifiedOn'])
+        );
+        console.log("Users: ", this.users.length > 0 ? this.users : "None")
+      },
+      error: (error) => {
+        console.error("Error loading users: ", error);
+      }
     })
   }
 
-  loadUserDetails(userId: Number) { 
+  loadUserDetails(user: User) { 
     console.log("Load User Details")
-    this.router.navigate(['/user-details', userId]);
+    this.router.navigate(['/user-details'], {state: {mode: "view", user: user}});
   }
 
   loadUserForm() { 
     console.log("Load User Form")
-    this.router.navigate(['/user-form']);
+    this.router.navigate(['/user-details'], {state: {mode: "add"}});
   }
 
   moreUsers() {
@@ -103,16 +112,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.increaseSectionHeight('user');
   }
 
-  addNewUser() { }
-
-  updateUser() { }
-
-  deleteUser() { }
-
   /*** Medicine Data Section ***/
 
   loadMedicineData() {
-    this.medicineDataService.generateTestData();
+    //this.medicineDataService.generateTestData();
     this.medicineDataService.getMedicineData().subscribe(medicine => {
       this.medicineData = medicine;
       console.log("Medicine Data: ", this.medicineData);
@@ -143,7 +146,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /*** Order Data Section ***/
 
   loadOrderData() {
-    this.orderDataService.generateTestData();
+    //this.orderDataService.generateTestData();
     this.orderDataService.getOrderData().subscribe(order => {
       this.orderData = order;
       console.log("Order Data: ", this.orderData);
@@ -221,20 +224,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sectionSubscription.unsubscribe();
+    this.userSubscription?.unsubscribe();
+    this.sectionSubscription?.unsubscribe();
   }
 }
-
-/*
-  const navigation = this.router.getCurrentNavigation();
-
-  if (navigation && navigation.extras && navigation.extras.state) {
-    
-    const state = navigation.extras.state as { user: User }
-    this.user = state.user;
-    console.log("Dashboard Page");
-    console.log("User: ", this.user);
-
-    this.validateUser(this.user);
-  }
-  */
