@@ -16,10 +16,10 @@ export class MedicineSymptom {
 
 export class MedicineSymptomId {
 
-    private medicineId: number = 0;
-    private symptomId: number = 0;
+    private medicineId: Number = 0;
+    private symptomId: Number = 0;
 
-    constructor(medicineId?: number, symptomId?: number) {
+    constructor(medicineId?: Number, symptomId?: Number) {
         this.medicineId = medicineId || 0;
         this.symptomId = symptomId || 0;
     }
@@ -28,7 +28,7 @@ export class MedicineSymptomId {
         return this.medicineId;
     }
 
-    set MedicineId(value: number) {
+    set MedicineId(value: Number) {
         this.medicineId = value;
     }
 
@@ -36,7 +36,7 @@ export class MedicineSymptomId {
         return this.symptomId;
     }
 
-    set SymptomId(value: number) {
+    set SymptomId(value: Number) {
         this.symptomId = value;
     }
 }

@@ -1,12 +1,14 @@
 export class Medicine {
     private id: number;
     private name: string;
+    private price: number;
     private brand: string;
     private stock: number;
 
-    constructor(id?: number, name?: string, brand?: string, stock?: number) {
+    constructor(id?: number, name?: string, price?: number, brand?: string, stock?: number) {
         this.id = id || 0;
         this.name = name || '';
+        this.price = price || 0;
         this.brand = brand || '';
         this.stock = stock || 0;
     }
@@ -25,6 +27,14 @@ export class Medicine {
 
     set Name(value: string) {
         this.name = value;
+    }
+
+    get Price() {
+        return this.price;
+    }
+
+    set Price(value: number) {
+        this.price = value;
     }
 
     get Brand() {

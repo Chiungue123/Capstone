@@ -12,11 +12,7 @@ export class UserService {
   private usersSubject = new BehaviorSubject<User[]>([]);
   user$: Observable<User[]> = this.usersSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    /*this.loadUserData().subscribe(users => {
-      this.usersSubject.next(users);
-    });*/
-  }
+  constructor(private http: HttpClient) { }
   
   private loadUserData(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
@@ -32,12 +28,10 @@ export class UserService {
   }
 
   getUser(id: Number) {
-    console.log("User Service: Getting User ID: ", id);
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
   addUser(user: User) {
-    console.log("User Service: Adding User: ", this.apiUrl + "/add");
     return this.http.post<User>(`${this.apiUrl}/add`, user).pipe(tap(user => {
       const currentUsers = this.usersSubject.value;
       this.usersSubject.next([...currentUsers, user])
@@ -45,11 +39,9 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    console.log("Update User Called")
     return this.http.put<User>(`${this.apiUrl}/update/${user.Id}`, user).pipe(
       tap((updatedUser: User) => {    
         this.usersSubject.next(this.usersSubject.value.map(u => u.Id === updatedUser.Id ? updatedUser : u));
-        //console.log("After User Subject: ", this.usersSubject.value);
       }),
       catchError(error => {
         console.error("Failed to update user", error);
@@ -66,7 +58,6 @@ export class UserService {
   */
 
   deleteUser(id: Number) {
-    console.log("User Service: Deleting User ID: ", id);
     return this.http.delete(`${this.apiUrl}/delete/${id}`).pipe(tap(() => {
       const currentUsers = this.usersSubject.value.filter(user => user.Id !== id);
       this.usersSubject.next(currentUsers);
@@ -78,16 +69,6 @@ export class UserService {
     user['address'], user['phone'], user['isAdmin'], user['createdOn'], user['modifiedOn']);
     const currentUsers = this.usersSubject.value.filter(u => u.Id !== updatedUser.Id);
     this.usersSubject.next([...currentUsers, updatedUser]);
-  }
-
-  generateTestData() {
-    const testData = [
-      new User(1, 'John', 'Doe', 'johndoe', 'password', 'email@example.com', '123 Main St', '555-555-5555', true, new Date(), new Date()),
-      new User(2, 'Jane', 'Doe', 'janedoe', 'password', 'janedoe@example.com', '456 Elm St', '555-555-5555', false, new Date(), new Date()),
-      new User(3, 'John', 'Smith', 'johnsmith', 'password', 'smith@hotmail.com', '789 Oak St', '555-555-5555', false, new Date(), new Date())
-    ];
-
-    this.usersSubject.next(testData);
   }
 }
 

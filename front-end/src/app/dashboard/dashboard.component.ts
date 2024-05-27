@@ -13,17 +13,22 @@ import { OrderComponent } from '../dashboard-components/order-details/order.comp
 import { OrderCardComponent } from '../dashboard-components/order-card/order-card.component';
 import { MedicineComponent } from '../dashboard-components/medicine-details/medicine.component';
 import { MedicineCardComponent } from '../dashboard-components/medicine-card/medicine-card.component';
+import { SymptomCardComponent } from '../dashboard-components/symptom-card/symptom-card.component';
 
 // Model Imports
 import { User } from '../models/user';
 import { OrderData } from '../dashboard-models/order-data';
-import { MedicineData } from '../dashboard-models/medicine-data';
+import { Order } from '../models/order';
+import { Medicine } from '../models/medicine';
 
 // Service Imports
 import { ScrollService } from '../services/scroll.service';
-import { MedicineDataService } from '../dashboard-services/medicine-data.service';
 import { OrderManagementService } from '../dashboard-services/order-data.service';
 import { UserService } from '../services/user.service';
+import { MedicineService } from '../services/medicine.service';
+import { OrderService } from '../services/orders.service';
+import { SymptomService } from '../services/symptom.service';
+import { Symptom } from '../models/symptom';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +42,7 @@ import { UserService } from '../services/user.service';
     OrderCardComponent,
     MedicineComponent,
     MedicineCardComponent,
+    SymptomCardComponent,
     CommonModule,
     NgForOf
   ],
@@ -47,6 +53,8 @@ import { UserService } from '../services/user.service';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   private sectionSubscription!: Subscription;
+  private medicineSubscription!: Subscription;
+  private orderSubscription!: Subscription;
   private userSubscription!: Subscription;
 
   position: string = "Admin";
@@ -54,23 +62,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isDarkMode: boolean = false;
   userData: User[] = []; // When receiving raw JSON
   users: User[] = []; // Collects User Objects from JSON
-  medicineData: MedicineData[] = [];
+  symptoms: Symptom[] = [];
+  medicines: Medicine[] = [];
   orderData: OrderData[] = [];
+  orders: Order[] = [];
 
   constructor(
     private router: Router,
     private toastr: ToastrService,
     private scrollService: ScrollService,
     private userService: UserService,
-    private medicineDataService: MedicineDataService,
-    private orderDataService: OrderManagementService
-  ) { 
-    //this.loadOrderData();
-    //this.loadMedicineData(); 
-  }
+    private medicineService: MedicineService,
+    private orderDataService: OrderManagementService,
+    private orderService: OrderService,
+    private symptomService: SymptomService
+  ) { }
 
   ngOnInit(): void {
     this.loadUserData();
+    this.loadMedicines();
+    this.loadSymptoms();
+    //this.loadOrderData();
 
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';
     this.updateTheme();
@@ -114,22 +126,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   /*** Medicine Data Section ***/
 
-  loadMedicineData() {
-    //this.medicineDataService.generateTestData();
-    this.medicineDataService.getMedicineData().subscribe(medicine => {
-      this.medicineData = medicine;
-      console.log("Medicine Data: ", this.medicineData);
+  loadMedicines() {
+    this.medicineSubscription = this.medicineService.getMedicines().subscribe({
+      next: (medicines: Medicine[]) => {
+        this.medicines = medicines.map(medicine =>
+          new Medicine(medicine['id'], medicine['name'], medicine['price'], medicine['brand'], medicine['stock'])
+        );
+        console.log("Medicines: ", this.medicines.length > 0 ? this.medicines : "None")
+      },
+      error: (error) => console.error("Error loading medicines: ", error)
     });
   }
 
-  loadMedicneDetails(medicineId: Number) { 
+  loadMedicneDetails(medicine: Medicine) { 
     console.log("Load Medicine Details")
-    this.router.navigate(['/medicine-details', medicineId]);
+    this.router.navigate(['/medicine-details', medicine]);
   }
 
   loadMedicineForm() {
     console.log("Load Medicine Form")
-    this.router.navigate(['/medicine-form']);
+    this.router.navigate(['/medicine-details'], {state: {mode: "add"}});
   }
 
   moreMedicines() {
@@ -137,19 +153,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.increaseSectionHeight('medicine');
   }
 
-  addNewMedicine() { }
-
-  updateMedicine() { }
-
-  deleteMedicine() { }
-
   /*** Order Data Section ***/
 
   loadOrderData() {
-    //this.orderDataService.generateTestData();
-    this.orderDataService.getOrderData().subscribe(order => {
-      this.orderData = order;
-      console.log("Order Data: ", this.orderData);
+    this.orderSubscription = this.orderDataService.getOrderData().pipe().subscribe({
+      next: (orders: OrderData[]) => {
+        this.orderData = orders.map(order =>
+          new OrderData(order['order'], order['Inventory'])
+        );
+        console.log("Orders: ", this.orders.length > 0 ? this.orders : "None")
+      },
+      error: (error) => {
+        console.error("Error loading orders: ", error);
+      }
     });
   }
 
@@ -160,7 +176,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadOrderForm() { 
     console.log("Load Order Form")
-    this.router.navigate(['/order-form']);
+    this.router.navigate(['/order-details']);
   }
 
   moreOrders() {
@@ -168,11 +184,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.increaseSectionHeight('order');
   }
 
-  addNewOrder() { }
+  /*** Symptom Data Section ***/
 
-  updateOrder() { }
+  loadSymptoms() {
+    this.symptomService.getSymptoms().pipe().subscribe({
+      next: (symptomData: Symptom[]) => {
+        this.symptoms = symptomData.map(symptom =>
+          new Symptom(symptom['id'], symptom['description'])
+        );
+        console.log("Symptoms: ", this.symptoms.length > 0 ? this.symptoms : "None")
+      },
+      error: (error) => {
+        console.error("Error loading symptoms: ", error);
+      }
+    });
+  }
 
-  deleteOrder() { }
+  loadSymptomDetails() {
+    console.log("Load Symptom Details")
+  }
+
+  loadSymptomForm() {
+    console.log("Load Symptom Form")
+  }
+
+  moreSymptoms() {
+    console.log("More Symptoms")
+  }
 
   /*** Scroll Section ***/
 
@@ -225,6 +263,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSubscription?.unsubscribe();
+    this.medicineSubscription?.unsubscribe();
+    this.orderSubscription?.unsubscribe();
     this.sectionSubscription?.unsubscribe();
   }
 }

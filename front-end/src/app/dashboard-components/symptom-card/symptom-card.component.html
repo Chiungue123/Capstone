@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Symptom-Card</title>
+    </head>
+    <body>
+        <i class="bi bi-file-medical"></i>
+        <p>{{ symptom.Description }}</p>
+        <button type="button" (click)="onLoadSymptomDetails(symptom)">Details <i class="bi bi-info-circle"></i></button>
+    </body>
+</html>

@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     color: var(--text-color);
+    
 }
 
 body {
@@ -18,19 +19,17 @@ body {
 }
 
 p {
-    padding: 5px 0 2px 0;
+    padding: 2px 0;
 }
 
 i {
+    padding: 5px 0;
     font-size: 2.5em;
     font-weight: bold;
 }
 
 svg {
-    height: 2em;
-    width: 2em;
-    font-weight: bold;
-    margin: 25px 0 5px 0;
+    margin: 20px 0;
 }
 
 button {
@@ -39,7 +38,7 @@ button {
     font-size: 13px;
 }
 
-i {
+button i {
     font-size: 1em;
     font-weight: bold;
 }

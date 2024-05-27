@@ -6,11 +6,31 @@
         <title>Order-Card</title>
     </head>
     <body>
-        <i class="bi bi-cart"></i>
+        <!--<i class="bi bi-cart"></i>
         <p>Order Card</p>
-        <button type="button" (click)="onLoadOrderDetails(orderCard.order.Id)">Details <i class="bi bi-info-circle"></i></button>
+        <button type="button" (click)="onLoadOrderDetails(orderCard.order.Id)">Details <i class="bi bi-info-circle"></i></button>-->
         <!--<p>Order ID: {{ item.order.Id }}</p>
         <p>Order Data: {{ order.order }}</p>
         <p>Order Data Inventory: {{ order.inventory }}</p>-->
+        <!--<div class="content">    
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th [ngStyle]="{'max-width.px': 125}"> # </th>
+                    <th [ngStyle]="{'max-width.px': 125}"> # </th>
+                </tr>
+                <tr *ngFor="let user of users; let i = index">
+                    <td> {{i + 1}} </td>
+                    <td> {{user.firstName}} {{user.lastName}} </td>
+                    <td> {{user.email}} </td>
+                    <td> {{user.phone}} </td>
+                    <td [ngStyle]="{'max-width.px': 125}"><button class="update" type="button" (click)="onUpdate(user.userID)">Update</button></td>
+                    <td [ngStyle]="{'max-width.px': 125}"><button class="delete" type="button" (click)="onDelete(user.userID)">Delete</button></td>
+                </tr>
+            </table>
+        </div>-->
     </body>
 </html>

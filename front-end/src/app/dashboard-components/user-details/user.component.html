@@ -75,7 +75,7 @@
              </div>
     
             <div class="buttons">
-                <button type="button" class="back" (click)="onGoBack()">Go Back <i class="bi bi-box-arrow-right"></i></button>
+                <button type="button" class="back" *ngIf="isAddMode || isEditMode" (click)="onGoBack()">Go Back <i class="bi bi-box-arrow-right"></i></button>
                 <button type="button" class="edit" *ngIf="!isEditMode && !isAddMode" (click)="isEditMode = true">Edit <i class="bi bi-pencil-square"></i></button>
                 <button type="button" class="update" *ngIf="isEditMode" (click)="onUpdate()">Update <i class="bi bi-send"></i></button>
                 <button type="button" class="delete" *ngIf="!isAddMode" (click)="onDelete(user)">Delete <i class="bi bi-trash"></i></button>

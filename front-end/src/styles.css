@@ -5,7 +5,7 @@
     --text-color: black;           /* Dark mode text */
     --box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     --color-primary: #6C9BCF;      /* Dark mode primary color */
-    --brightness-bg: var(--bs-gray-200);
+    --brightness-bg: #eaeaea;
     --dashboard-reg-height: 200px;
     --input-background: #dfdfdf;
 }

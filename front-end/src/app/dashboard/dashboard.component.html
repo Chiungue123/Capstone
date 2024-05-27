@@ -40,7 +40,7 @@
                         <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
                         <div class="add-user" (click)="loadUserForm()">
                             <i class="bi bi-plus-lg"></i>
-                            <p>New User</p>
+                            <p>Add</p>
                         </div>
                         <div class="more-user" (click)="moreUsers()">
                             <i class="bi bi-three-dots"></i>
@@ -54,7 +54,7 @@
                         <app-order-card *ngFor="let orderItem of orderData" [orderCard]="orderItem"></app-order-card>
                         <div class="add-order" (click)="loadOrderForm()">
                             <i class="bi bi-plus-lg"></i>
-                            <p>New Order</p>
+                            <p>Add</p>
                         </div>
                         <div class="more-order" (click)="moreOrders()">
                             <i class="bi bi-three-dots"></i>
@@ -65,10 +65,10 @@
                 <div id="medicines" class="medicines"> <!-- Available Medicines in Stock -->
                     <h1>Medicines</h1>
                     <div class="content">
-                        <app-medicine-card *ngFor="let medicine of medicineData" [medicine]="medicine"></app-medicine-card>
+                        <app-medicine-card *ngFor="let medicine of medicines" [medicine]="medicine"></app-medicine-card>
                         <div class="add-medicine" (click)="loadMedicineForm()">
-                            <i class="bi bi-plus"></i>
-                            <p>New Medicine</p>
+                            <i class="bi bi-plus-lg"></i>
+                            <p>Add</p>
                         </div>
                         <div class="more-medicine" (click)="moreMedicines()">
                             <i class="bi bi-three-dots"></i>
@@ -76,9 +76,19 @@
                         </div>
                     </div>
                 </div>
-                <div id="settings" class="settings">
-                    <h1>Settings</h1> <!-- Settings -->
-                    <div id="settings" class="content"></div>
+                <div id="symptoms" class="symptoms"> <!-- Symptoms -->
+                    <h1>Symptoms</h1> 
+                    <div class="content">
+                        <app-symptom-card *ngFor="let symptom of symptoms" [symptom]="symptom"></app-symptom-card>
+                        <div class="add-symptom" (click)="loadSymptomForm()">
+                            <i class="bi bi-plus-lg"></i>
+                            <p>Add</p>
+                        </div>
+                        <div class="more-symptom" (click)="moreSymptoms()">
+                            <i class="bi bi-three-dots"></i>
+                            <p>See More</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

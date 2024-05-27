@@ -1,1 +1,112 @@
-<p>medicine works!</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Medicine-Card</title>
+    </head>
+    <body>
+        <div class="top">
+            <div class="title">
+                <h1 *ngIf="isEditMode"> Edit Medicine </h1>
+                <h1 *ngIf="isAddMode"> Create Medicine </h1>
+                <h1 *ngIf="!isEditMode && !isAddMode">{{ medicine.Name ? medicine.Name : 'No Medicine'}}</h1>
+            </div>
+            <div class="brightness">
+                <span class="light" (click)="toggleTheme('light')" [class.active]="!isDarkMode"><i class="bi bi-sun-fill"></i></span>
+                <span class="dark" (click)="toggleTheme('dark')" [class.active]="isDarkMode"><i class="bi bi-moon-fill"></i></span>
+            </div>
+        </div>
+        <form [formGroup]="medicineForm">
+            <div class="rows">
+                <div class="row" *ngIf="!isAddMode">
+                    <span>Medicine ID:</span>
+                    <span class="rtl">{{ medicine.Id }}</span>
+                </div>
+                <div class="row">
+                    <label for="name" class="name">Name: </label>
+                    <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ medicine.Name }}</span>
+                    <input id="name" *ngIf="isEditMode || isAddMode" formControlName="name" placeholder="Name">
+                </div>
+                <div class="row">
+                    <label for="brand">Brand: </label>
+                    <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ medicine.Brand }}</span>
+                    <input id="brand" *ngIf="isEditMode || isAddMode" formControlName="brand" placeholder="Brand">
+                </div>
+                <div class="row">
+                    <label for="price">Price: </label>
+                    <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ medicine.Price | currency : 'CAD' }}</span>
+                    <input id="price" *ngIf="isEditMode || isAddMode" formControlName="price" placeholder="Price">
+                </div>
+                <div class="row">
+                    <label for="stock">Stock: </label>
+                    <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ medicine.Stock }}</span>
+                    <input id="stock" *ngIf="isEditMode || isAddMode" formControlName="stock" placeholder="Stock">
+                </div>
+            </div>
+            <div class="symptoms">
+                <table>
+                    <tr>
+                        <th> ID </th>
+                        <th> Symptom </th>
+                        <th *ngIf="isEditMode || isAddMode"> Action </th>
+                    </tr>
+                    <ng-container *ngIf="isAddMode">
+                        <tr *ngFor="let symptom of allSymptoms; let i = index">
+                            <td>
+                                <span class="rtl">{{ symptom.id }}</span>
+                            </td>
+                            <td>
+                                <span class="rtl">{{ symptom.description }}</span>
+                            </td>
+                            <td>
+                                <div class="addSymptom">
+                                    <label>Add </label>
+                                    <input type="checkbox" (change)="onToggleAddSymptom(symptom.id)">
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!isAddMode">
+                        <tr *ngFor="let symptom of medicineSymptoms">
+                            <td>
+                                <span class="rtl">{{ symptom.id }}</span>
+                            </td>
+                            <td>
+                                <span class="rtl">{{ symptom.description }}</span>
+                            </td>
+                            <td *ngIf="isEditMode">
+                                <div class="removeSymptom">
+                                    <label>Remove <input type="checkbox" (change)="onToggleRemoveSymptom(symptom.id)"></label>
+                                </div>
+                            </td>
+                        </tr>
+                        <ng-container *ngIf="isEditMode">
+                            <tr *ngFor="let symptom of nonMedicineSymptoms">
+                                <td>
+                                    <span class="rtl">{{ symptom.id }}</span>
+                                </td>
+                                <td>
+                                    <span class="rtl">{{ symptom.description }}</span>
+                                </td>
+                                <td *ngIf="isEditMode">
+                                    <div class="addSymptom">
+                                        <label>Add <input type="checkbox" (change)="onToggleAddSymptom(symptom.id)"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </table>
+            </div>
+
+            <div class="buttons">
+                <button type="button" class="back" (click)="onGoBack()">Go Back <i class="bi bi-box-arrow-right"></i></button>
+                <button type="button" class="edit" *ngIf="!isEditMode && !isAddMode" (click)="isEditMode = true">Edit <i class="bi bi-pencil-square"></i></button>
+                <button type="button" class="update" *ngIf="isEditMode" (click)="onUpdate(medicine)">Update <i class="bi bi-send"></i></button>
+                <button type="button" class="delete" *ngIf="!isAddMode" (click)="onDelete(medicine)">Delete <i class="bi bi-trash"></i></button>
+                <button type="button" class="add" *ngIf="isAddMode" (click)="onAdd(medicine)">Add <i class="bi bi-send-fill"></i></button>
+            </div>
+        </form>
+    </body>
+</html>

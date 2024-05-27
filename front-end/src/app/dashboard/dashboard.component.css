@@ -86,7 +86,8 @@ body {
 
 .add-user, .more-user,
 .add-medicine, .more-medicine,
-.add-order, .more-order {
+.add-order, .more-order,
+.add-symptom, .more-symptom {
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -103,14 +104,16 @@ body {
 
   .add-user,
   .add-medicine,
-  .add-order {
+  .add-order,
+  .add-symptom {
     background-color: rgb(2, 172, 2);
     bottom: 50px;
   }
   
   .add-user i, .more-user i,
   .add-medicine i, .more-medicine i,
-  .add-order i, .more-order i {
+  .add-order i, .more-order i,
+  .add-symptom i, .more-symptom i {
     margin-right: 5px;
     font-weight: bold;
   }
