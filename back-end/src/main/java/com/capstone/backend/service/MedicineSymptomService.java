@@ -1,6 +1,7 @@
 package com.capstone.backend.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,46 +9,61 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capstone.backend.jpa.MedicineSymptom;
+import com.capstone.backend.jpa.MedicineSymptomId;
+import com.capstone.backend.jpa.Symptom;
 import com.capstone.backend.repository.MedicineSymptomRepository;
+import com.capstone.backend.repository.SymptomRepository;
 
 @Service
 public class MedicineSymptomService {
 	
 	@Autowired MedicineSymptomRepository repo;
-
-	// @Autowired MedicineSymptom medicineSymptom;
+	@Autowired SymptomRepository symptomRepo;
 
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public MedicineSymptom addMedicineSymptom(MedicineSymptom medicineSymptom) {
-
+	public List<MedicineSymptomId> addMedicineSymptoms(List<MedicineSymptomId> medicineSymptomIds) {
+		
 		logger.info("MedicineSymptom - Service - Add MedicineSymptom");
-		return this.repo.save(medicineSymptom);
+		
+		for (MedicineSymptomId id : medicineSymptomIds) {
+			logger.info("MeciineSymptom - Service - Medicine ID: " + id.getMedicineId());
+			logger.info("MeciineSymptom - Service - Symptom ID: " + id.getSymptomId());
+            this.repo.save(new MedicineSymptom(id));
+        }
+		
+		return medicineSymptomIds;
 	}
 
 	public List<MedicineSymptom> getMedicineSymptoms() {
-
+		
+		List<MedicineSymptom> medicineSymptoms;
+		
 		logger.info("MedicineSymptom - Service - List MedicineSymptoms");
-		return this.repo.findAll();
+		
+		medicineSymptoms = this.repo.findAll();
+		logger.info("MedicineSymptom - Service - MedicineSymptoms: " + medicineSymptoms);
+		
+		return medicineSymptoms;
 	}
 
-	public MedicineSymptom updateMedicineSymptom(Byte id, MedicineSymptom medicineSymptom) {
-
-		logger.info("MedicineSymptom - Service - Update MedicineSymptom ID: ", id);
-
-		return this.repo.findById(id).map(exsistingItem -> {
-			exsistingItem.setId(medicineSymptom.getId());
-			exsistingItem.setMedicine(medicineSymptom.getMedicine());
-			exsistingItem.setSymptom(medicineSymptom.getSymptom());
-
-			return this.repo.save(exsistingItem);
-
-		}).orElse(null);
+	public List<Symptom> getSymptomsByMedicineId(Byte medicineId) {
+		
+		List<MedicineSymptom> medicineSymptoms = repo.findById_MedicineId(medicineId);
+		
+		List<Byte> symptomIds = medicineSymptoms.stream()
+												.map((MedicineSymptom ms) -> ms.getId().getSymptomId())
+                                                .collect(Collectors.toList());
+		
+		return symptomRepo.findAllById(symptomIds);
 	}
+	
+	public void deleteMedicineSymptoms(List<MedicineSymptomId> medicineSymptomIds) {
 
-	public void deleteMedicineSymptom(Byte id) {
-
-		logger.info("MedicineSymptom - Service - Add MedicineSymptom");
-		this.repo.deleteById(id);
+		logger.info("MedicineSymptom - Service - Add MedicineSymptom ID: " + medicineSymptomIds);
+		
+		for (MedicineSymptomId id : medicineSymptomIds) {
+            this.repo.delete(new MedicineSymptom(id));
+        }
 	}
 }

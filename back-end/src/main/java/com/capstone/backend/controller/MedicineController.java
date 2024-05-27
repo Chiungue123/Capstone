@@ -22,8 +22,6 @@ import com.capstone.backend.service.MedicineService;
 @RequestMapping("/medicines")
 @CrossOrigin(origins = "http://localhost:4200")
 public class MedicineController {
-
-	//@Autowired Medicine medicine;
 	
 	@Autowired MedicineService service;
 	
@@ -47,7 +45,7 @@ public class MedicineController {
 	public Medicine updateMedicine(@RequestBody Medicine medicine, @PathVariable("id") Byte id) {
 		
 		logger.info("Medicine - Controller - Update Medicine ID: ", medicine);
-		return this.service.updateMedicine(id);
+		return this.service.updateMedicine(id, medicine);
 	}
 	
 	@DeleteMapping("/delete/{id}")
@@ -57,12 +55,3 @@ public class MedicineController {
 		this.service.deleteMedicine(id);
 	}
 }
-
-/*
-GPT Promt: 
-
-The next step is to push the service and controller layers to github, make separate messages for each of them. 
-Again, these classes aren't tested and don't have the additional validation logic required to accommodate the different table relationships but that will be the next step. 
-This commit will be a reference point to fall back to if the situation presents itself
-
-*/

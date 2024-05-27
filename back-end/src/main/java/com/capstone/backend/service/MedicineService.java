@@ -1,7 +1,6 @@
 package com.capstone.backend.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,6 @@ import com.capstone.backend.repository.MedicineRepository;
 
 @Service
 public class MedicineService {
-
-	// @Autowired Optional<Medicine> medicine;
 	
 	@Autowired MedicineRepository repo;
 	
@@ -32,20 +29,24 @@ public class MedicineService {
 		return this.repo.findAll();
 	}
 
-	public Medicine updateMedicine(Byte id) {
+	public Medicine updateMedicine(Byte id, Medicine medicine) {
 		
-		logger.info("Medicine - Service - Get Medicines");
-		Optional<Medicine> medicine = this.repo.findById(id);
-		if (medicine.isPresent()) {
-            return this.repo.save(medicine.get());
-		} else {
-			return null;
-		}
+		logger.info("Medicine - Service - Update Medicine ID: " + id);
+		this.repo.findById(id).ifPresent( m -> {
+			m.setName(medicine.getName());
+			m.setPrice(medicine.getPrice());
+			m.setBrand(medicine.getBrand());
+			m.setStock(medicine.getStock());
+			
+		    this.repo.save(m);
+		});
+		
+		return this.repo.findById(id).get();
 	}
 
 	public void deleteMedicine(Byte id) {
 		
-		logger.info("Medicine - Service - Get Medicines");
+		logger.info("Medicine - Service - Delete Medicine ID: " + id);
 		this.repo.deleteById(id);
 	}
 	

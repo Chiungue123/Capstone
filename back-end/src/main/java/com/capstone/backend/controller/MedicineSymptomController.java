@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capstone.backend.jpa.MedicineSymptom;
+import com.capstone.backend.jpa.MedicineSymptomId;
+import com.capstone.backend.jpa.Symptom;
 import com.capstone.backend.service.MedicineSymptomService;
 
 @RestController
@@ -25,15 +26,13 @@ public class MedicineSymptomController {
 	
 	@Autowired MedicineSymptomService service;
 	
-	// @Autowired MedicineSymptom medicineSymptom;
-	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@PostMapping("/add")
-	public MedicineSymptom addMedicineSymptom(@RequestBody MedicineSymptom medicineSymptom) {
+	public List<MedicineSymptomId>  addMedicineSymptom(@RequestBody List<MedicineSymptomId> medicineSymptoms) {
 
-		logger.info("MedicineSymptom - Controller - Add MedicineSymptom: ", medicineSymptom);
-		return this.service.addMedicineSymptom(medicineSymptom);
+		logger.info("MedicineSymptom - Controller - Add MedicineSymptom: {}", medicineSymptoms.toString());
+		return this.service.addMedicineSymptoms(medicineSymptoms);
 	}
 	
 	@GetMapping()
@@ -43,18 +42,18 @@ public class MedicineSymptomController {
 		return this.service.getMedicineSymptoms();
 	}
 	
-	@PutMapping("/update/{id}")
-	public MedicineSymptom updateMedicineSymptom(@PathVariable Byte id, @RequestBody MedicineSymptom medicineSymptom) {
+	@GetMapping("/medicine/{id}")
+	public List<Symptom> getMedicineSymptom(@PathVariable Byte id) {
 
-		logger.info("MedicineSymptom - Controller - Update MedicineSymptom ID: ", id);
-		return this.service.updateMedicineSymptom(id, medicineSymptom);
+		logger.info("MedicineSymptom - Controller - Get Symptoms by Medicine ID: " + id);
+		return this.service.getSymptomsByMedicineId(id);
 	}
 	
-	@DeleteMapping("/delete/{id}")
-	public void deleteMedicineSymptom(@PathVariable Byte id) {
+	@DeleteMapping("/delete")
+	public void deleteSymptomsByMedicineId(@RequestBody List<MedicineSymptomId>  medicineSymptoms) {
 
-		logger.info("MedicineSymptom - Controller - Delete MedicineSymptom ID: ", id);
-		this.service.deleteMedicineSymptom(id);
+		logger.info("MedicineSymptom - Controller - Delete Symptom IDs for Medicine ID: " + medicineSymptoms.toString());
+		this.service.deleteMedicineSymptoms(medicineSymptoms);
 	}
-
+	
 }

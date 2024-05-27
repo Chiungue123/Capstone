@@ -18,6 +18,9 @@ public class Medicine {
 
     @Column(name = "name", nullable = false)
     private String name;
+    
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @Column(name = "brand", nullable = false)
     private String brand;
@@ -49,6 +52,14 @@ public class Medicine {
     public void setName(String name) {
         this.name = name;
     }
+    
+	public Double getPrice() {
+		return price;
+	}
+	
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
     public String getBrand() {
         return brand;

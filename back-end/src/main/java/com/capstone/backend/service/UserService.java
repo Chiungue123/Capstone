@@ -43,8 +43,7 @@ public class UserService {
 
 	public User updateUser(Byte id, User user) {
 		
-		//logger.info("User - Service - Update User ID: " + id);
-		//logger.info("User - Service - Updating User Info: " + user.toString());
+		logger.info("User - Service - Update User ID: " + id);
 		
 		this.repo.findById(id).ifPresent(u -> {
             u.setFirstName(user.getFirstName());
