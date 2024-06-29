@@ -1,18 +1,16 @@
 package com.capstone.backend.jpa;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "orders")
@@ -20,7 +18,6 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Byte id;
 
     @Column(name = "ship_from", nullable = false)
@@ -30,28 +27,27 @@ public class Order {
     private String shipTo;
 
     @Column(name = "cost", nullable = false)
-    private BigDecimal cost;
+    private Double cost;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_on", nullable = false)
+    @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modified_on", nullable = false)
+    @Column(nullable = false)
+    @UpdateTimestamp
     private LocalDateTime modifiedOn;
-
+    
+    @Column(name = "status", nullable = false)
+    private String status;
+    
     @Column(name = "user_id", nullable = false)
     private Byte userId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private User user;
     
 	public Order() {}
 
 	public Order(Byte id, String shipFrom, String shipTo, 
-			BigDecimal cost, LocalDateTime createdOn,
-			LocalDateTime modifiedOn, Byte userId, User user) {
+			Double cost, LocalDateTime createdOn,
+			LocalDateTime modifiedOn, String status, Byte userId) {
 		
 		this.id = id;
 		this.shipFrom = shipFrom;
@@ -59,8 +55,8 @@ public class Order {
 		this.cost = cost;
 		this.createdOn = createdOn;
 		this.modifiedOn = modifiedOn;
+		this.status = status;
 		this.userId = userId;
-		this.user = user;
 	}
 
 	public Byte getId() {
@@ -87,11 +83,11 @@ public class Order {
 		this.shipTo = shipTo;
 	}
 
-	public BigDecimal getCost() {
+	public Double getCost() {
 		return cost;
 	}
 
-	public void setCost(BigDecimal cost) {
+	public void setCost(Double cost) {
 		this.cost = cost;
 	}
 
@@ -119,18 +115,18 @@ public class Order {
 		this.userId = userId;
 	}
 
-	public User getUser() {
-		return user;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", shipFrom=" + shipFrom + ", shipTo=" + shipTo + ", cost=" + cost + ", createdOn="
-				+ createdOn + ", modifiedOn=" + modifiedOn + ", userId=" + userId + ", user=" + user + "]";
+				+ createdOn + ", modifiedOn=" + modifiedOn + ", user ID=" + userId + ", status=" + status + "]";
 	}
 
 }

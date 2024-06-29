@@ -6,51 +6,68 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.capstone.backend.jpa.Medicine;
+import com.capstone.backend.jpa.Order;
 import com.capstone.backend.jpa.OrderItem;
+import com.capstone.backend.repository.MedicineRepository;
 import com.capstone.backend.repository.OrderItemRepository;
+import com.capstone.backend.repository.OrderRepository;
 
 @Service
 public class OrderItemService {
 	
-	@Autowired OrderItemRepository repo;
-	
-	// @Autowired OrderItem orderItem;
-	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public OrderItem addOrderItem(OrderItem orderItem) {
+	@Autowired
+    private OrderItemRepository orderItemRepository;
 
-		logger.info("OrderItem - Service - Add OrderItem");
-		return this.repo.save(orderItem);
-	}
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private MedicineRepository medicineRepository;
+	
+	@Transactional
+    public List<OrderItem> addOrderItems(List<OrderItem> items) {
+        for (OrderItem item : items) {
+            Order order = orderRepository.findById(item.getId().getOrderId())
+                    .orElseThrow(() -> new RuntimeException("Order not found: " + item.getId().getOrderId()));
+            Medicine medicine = medicineRepository.findById(item.getId().getMedicineId())
+                    .orElseThrow(() -> new RuntimeException("Medicine not found: " + item.getId().getMedicineId()));
+            
+            item.setOrder(order);
+            item.setMedicine(medicine);
+        }
+        return orderItemRepository.saveAll(items);
+    }
 	
 	public List<OrderItem> getOrderItems() {
 
 		logger.info("OrderItem - Service - List OrderItems");
-		return this.repo.findAll();
+		return this.orderItemRepository.findAll();
 	}
 	
-	public OrderItem updateOrderItem(Byte id, OrderItem orderItem) {
+	public List<OrderItem> getItemsByOrderId(Byte id) {
 
-		logger.info("OrderItem - Service - Update OrderItem ID: ", id);
-		
-		return this.repo.findById(id).map(exsistingItem -> {
-            exsistingItem.setId(orderItem.getId());
-            exsistingItem.setOrder(orderItem.getOrder());
-            exsistingItem.setMedicine(orderItem.getMedicine());
-            exsistingItem.setQuantity(orderItem.getQuantity());
-            exsistingItem.setCost(orderItem.getCost());
-            
-            return this.repo.save(exsistingItem);
-            
-        }).orElse(null);
+        logger.info("OrderItem - Service - Get OrderItems by Order ID: " + id);
+        
+        List<OrderItem> items = this.orderItemRepository.findById_OrderId(id);
+        items.forEach(item -> logger.info(item.toString()));
+        
+        return items;
+    }
+	
+	public OrderItem getOrderItem(Byte id) {
+
+		logger.info("OrderItem - Service - Get OrderItem ID: " + id);
+		return this.orderItemRepository.findById(id).orElse(null);
 	}
 	
-	public void deleteOrderItem(Byte id) {
+	public void deleteOrderItems(List<OrderItem> items) {
 
 		logger.info("OrderItem - Service - Add OrderItem");
-		this.repo.deleteById(id);
+		this.orderItemRepository.deleteAll(items);
 	}
-
 }

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,15 +24,20 @@ public class OrderItemController {
 	
 	@Autowired OrderItemService service;
 	
-	// @Autowired OrderItem orderItem;
-	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@PostMapping("/add")
-	public OrderItem addOrderItem(@RequestBody OrderItem orderItem) {
+	public List<OrderItem> addOrderItems(@RequestBody List<OrderItem> items) {
 
-		logger.info("OrderItem - Controller - Add OrderItem");
-		return this.service.addOrderItem(orderItem);
+		logger.info("OrderItem - Controller - Add OrderItems: " + items.toString());
+		return this.service.addOrderItems(items);
+	}
+	
+	@GetMapping("/order/{id}")
+	public List<OrderItem> getOrderItemsByOrderId(@PathVariable Byte id) {
+
+		logger.info("OrderItem - Controller - Get OrderItems by Order ID: " + id);
+		return this.service.getItemsByOrderId(id);
 	}
 	
 	@GetMapping()
@@ -43,18 +47,11 @@ public class OrderItemController {
 		return this.service.getOrderItems();
 	}
 	
-	@PutMapping("update/{id}")
-	public OrderItem updateOrderItem(@PathVariable("id") Byte id, @RequestBody OrderItem orderItem) {
-
-		logger.info("OrderItem - Controller - Update OrderItem ID: ");
-		return this.service.updateOrderItem(id, orderItem);
-	}
 	
-	@DeleteMapping("delete/{id}")
-	public void deleteOrderItem(@PathVariable("id") Byte id) {
+	@DeleteMapping("/delete")
+	public void deleteOrderItems(@RequestBody List<OrderItem> items) {
 
-		logger.info("OrderItem - Controller - Add OrderItem");
-		this.service.deleteOrderItem(id);
+		logger.info("OrderItem - Controller - Delete OrderItems: " + items);
+		this.service.deleteOrderItems(items);
 	}
-
 }

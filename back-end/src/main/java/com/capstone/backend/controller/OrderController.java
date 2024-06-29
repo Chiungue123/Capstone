@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capstone.backend.jpa.Order;
+import com.capstone.backend.jpa.OrderItem;
 import com.capstone.backend.service.OrderService;
 
 @RestController
@@ -25,15 +28,14 @@ public class OrderController {
 
 	@Autowired OrderService service;
 	
-	// @Autowired Order order; Should not be autowired here as it is not a service or repository
-	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@PostMapping("/add") 
-	public Order addOrder(@RequestBody Order order){
-		
-		logger.info("Order - Controller - Add Order");
-		return this.service.addOrder(order);
+	@PostMapping("/add")
+	public ResponseEntity<Order> addOrder(@RequestBody Order order) {
+	    
+		logger.info("Order - Controller - Add Order: " + order);
+	    Order createdOrder = this.service.addOrder(order);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
 	}
 	
 	@GetMapping()
@@ -43,18 +45,24 @@ public class OrderController {
 		return this.service.getOrders();
 	}
 	
-	@PutMapping("/update/{id}")
-	public Order updateOrder(@PathVariable("id") Byte id, @RequestBody Order order) {
+	@GetMapping("/{orderId}/items")
+	public List<OrderItem> getItemsForOrderId(@PathVariable Byte orderId) {
 		
-		logger.info("Order - Controller - Update Order ID: ");
-		return this.service.updateOrder(id, order);
+		logger.info("OrderItem - Controller - Get OrderItem ID: " + orderId);
+		return this.service.getItemsByOrderId(orderId);
+	}
+	
+	@PutMapping("/update")
+	public Order updateOrder(@RequestBody Order order) {
+		
+		logger.info("Order - Controller - Update Order ID: " + order.getId());
+		return this.service.updateOrder(order);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public void deleteOrder(@PathVariable("id") Byte id) {
 		
-		logger.info("Order - Controller - Add Order");
+		logger.info("Order - Controller - Delete Order ID: " + id);
 		this.service.deleteOrder(id);
-	}
-	
+	}	
 }

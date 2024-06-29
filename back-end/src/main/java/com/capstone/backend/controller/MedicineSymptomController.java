@@ -50,7 +50,7 @@ public class MedicineSymptomController {
 	}
 	
 	@DeleteMapping("/delete")
-	public void deleteSymptomsByMedicineId(@RequestBody List<MedicineSymptomId>  medicineSymptoms) {
+	public void deleteSymptomsByMedicineId(@RequestBody List<MedicineSymptomId> medicineSymptoms) {
 
 		logger.info("MedicineSymptom - Controller - Delete Symptom IDs for Medicine ID: " + medicineSymptoms.toString());
 		this.service.deleteMedicineSymptoms(medicineSymptoms);

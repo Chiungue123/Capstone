@@ -13,7 +13,6 @@ public class Medicine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Byte id;
 
     @Column(name = "name", nullable = false)

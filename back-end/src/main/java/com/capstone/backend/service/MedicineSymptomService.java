@@ -27,8 +27,6 @@ public class MedicineSymptomService {
 		logger.info("MedicineSymptom - Service - Add MedicineSymptom");
 		
 		for (MedicineSymptomId id : medicineSymptomIds) {
-			logger.info("MeciineSymptom - Service - Medicine ID: " + id.getMedicineId());
-			logger.info("MeciineSymptom - Service - Symptom ID: " + id.getSymptomId());
             this.repo.save(new MedicineSymptom(id));
         }
 		

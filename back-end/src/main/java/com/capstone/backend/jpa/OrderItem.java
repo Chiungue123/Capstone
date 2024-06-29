@@ -1,9 +1,6 @@
 package com.capstone.backend.jpa;
 
-import java.io.Serializable;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -36,13 +33,12 @@ public class OrderItem {
     
     public OrderItem() {}
 
-    public OrderItem(OrderItemId id, Order order, Medicine medicine, Byte quantity, Double cost) {
-		super();
+    public OrderItem(OrderItemId id, Order order, Medicine medicine, Byte quantity) {
 		this.id = id;
 		this.order = order;
 		this.medicine = medicine;
 		this.quantity = quantity;
-		this.cost = cost;
+		this.cost = medicine.getPrice() * quantity;
 	}
 
 	public OrderItemId getId() {
@@ -80,50 +76,18 @@ public class OrderItem {
     public Double getCost() {
     	return cost;
     }
-    
+
 	public void setCost(Double cost) {
 		this.cost = cost;
+	}
+	
+	public String log() {
+		return "Item = " + medicine.getName() + " X " + quantity;
 	}
 
 	@Override
 	public String toString() {
-		return "OrderItem [id=" + id + ", order=" + order + ", medicine=" + medicine + ", quantity=" + quantity + "]";
+		return "OrderItem [OrderId=" + id.getOrderId() + ", MedicineId=" + id.getMedicineId() + ", order=" + order + ", medicine=" + medicine + ", quantity=" + quantity + "]";
 	}
-    
-}
-
-@Embeddable
-class OrderItemId implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-	@Column(name = "orders_id")
-    private Byte orderId;
-
-    @Column(name = "medicine_id")
-    private Byte medicineId;
-
-    public OrderItemId() {}
-
-    public OrderItemId(Byte orderId, Byte medicineId) {
-        this.orderId = orderId;
-        this.medicineId = medicineId;
-    }
-
-    public Byte getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Byte orderId) {
-        this.orderId = orderId;
-    }
-
-    public Byte getMedicineId() {
-        return medicineId;
-    }
-
-    public void setMedicineId(Byte medicineId) {
-        this.medicineId = medicineId;
-    }
     
 }
