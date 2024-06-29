@@ -48,10 +48,10 @@
                         </div>
                     </div>
                 </div>
-                <div id="history" class="history"> <!-- Recent Orders -->
+                <div id="orders" class="orders"> <!-- Recent Orders -->
                     <h1>Orders</h1>
                     <div class="content">
-                        <app-order-card *ngFor="let orderItem of orderData" [orderCard]="orderItem"></app-order-card>
+                        <app-order-card *ngFor="let order of orders" [order]="order"></app-order-card>
                         <div class="add-order" (click)="loadOrderForm()">
                             <i class="bi bi-plus-lg"></i>
                             <p>Add</p>

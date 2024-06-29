@@ -23,5 +23,4 @@ export class UserCardComponent {
     console.log("Loading User Details ID:", user.Id)
     this.router.navigate(['/user-details'], {state: {user: user, mode: "view"}});
   }
-
 }

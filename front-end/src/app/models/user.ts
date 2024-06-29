@@ -37,6 +37,22 @@ export class User {
         this.modifiedOn = modifiedOn || new Date();
     }
 
+    static fromJson: any = (json: any) => {
+        return new User(
+            json.id,
+            json.firstName,
+            json.lastName,
+            json.username,
+            json.password,
+            json.email,
+            json.address,
+            json.phone,
+            json.isAdmin,
+            new Date(json.createdOn),
+            new Date(json.modifiedOn)
+        );
+    }
+
     setUser(userObj: any) {
         this.id = userObj.id || 0;
         this.firstName = userObj.firstName || '';

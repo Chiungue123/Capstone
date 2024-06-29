@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { OrderItem, OrderItemId } from '../models/order-item';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -8,52 +8,59 @@ import { environment } from '../../environments/environment';
 
 export class OrderItemService {
 
-  private apiUrl = environment.apiUrl + environment.endpoints.orderItems;
+  private apiUrl = `${environment.apiUrl}${environment.endpoints.orderItems}`;
   private orderItemsSubject = new BehaviorSubject<OrderItem[]>([]);
   orderItem$: Observable<OrderItem[]> = this.orderItemsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    //this.loadInitialData();
-  }
+  constructor(private http: HttpClient) { }
 
-  private loadInitialData() {
-    this.http.get<OrderItem[]>(this.apiUrl).subscribe(orderItems => {
-      this.orderItemsSubject.next(orderItems);
-    })
+  private loadInitialData(): Observable<OrderItem[]> {
+    return this.http.get<OrderItem[]>(this.apiUrl);
   }
 
   getOrderItems() {
-    return this.orderItem$;
+    return this.loadInitialData().pipe(
+      tap(orderItems => {
+        orderItems = orderItems.map(item => new OrderItem(item['id'], item['order'], item['medicine'], item['quantity'], item['cost']));
+        this.orderItemsSubject.next(orderItems);
+        console.log("Order Items Subject: ", this.orderItemsSubject.value)
+      }),
+      switchMap(() => this.orderItem$)
+    );
   }
 
   getOrderItem(id: OrderItemId) {
-    return this.http.get<OrderItem>('${this.apiUrl}/${id.orderId}/${id.medicineId');
+    return this.http.get<OrderItem>(`${this.apiUrl}/${id.OrderId}/${id.MedicineId}`);
   }
 
-  addOrderItem(orderItem: OrderItem) {
-    return this.http.post<OrderItem>('${this.apiUrl}/add', orderItem).pipe(tap(orderItem => {
+  getItemsByOrderId(orderId: number) {
+    return this.http.get<OrderItem[]>(`${this.apiUrl}/order/${orderId}`).pipe(tap(items => {
+      items = items.map(item => new OrderItem(item['id'], item['order'], item['medicine'], item['quantity'], item['cost']));
       const currentOrderItems = this.orderItemsSubject.value;
-      this.orderItemsSubject.next([...currentOrderItems, orderItem]);
-    }))
-  }
-
-  updateOrderItem(orderItem: OrderItem) {
-    return this.http.put<OrderItem>('${this.apiUrl}/update', orderItem).pipe(
-      tap(updated => {
-        const currentOrderItems = this.orderItemsSubject.value;
-        const index = currentOrderItems.findIndex(item => 
-          item.Id.orderId === updated.Id.orderId && item.Id.medicineId === updated.Id.medicineId);
-      currentOrderItems[index] = updated;
-      this.orderItemsSubject.next([...currentOrderItems]);
+      this.orderItemsSubject.next([...currentOrderItems, ...items]);
+      console.log("Get Items By Order ID: ", items)
     }));
   }
 
-  deleteOrderItem(id: OrderItemId) {
-    return this.http.delete<OrderItem>('${this.apiUrl}/delete/${id.orderId}/${id.medicineId}').pipe(tap(() => {
-      const currentOrderItems = this.orderItemsSubject.value.filter(orderItem => 
-        orderItem.Id.medicineId !== id.medicineId && 
-        orderItem.Id.orderId !== id.orderId);
-      this.orderItemsSubject.next(currentOrderItems);
+  addOrderItems(orderItems: OrderItem[]) {
+    console.log("Order Items To Add: ", orderItems)
+    return this.http.post<OrderItem[]>(`${this.apiUrl}/add`, orderItems).pipe(tap(items => {
+      items = items.map(item => new OrderItem(item['id'], item['order'], item['medicine'], item['quantity'], item['cost']));
+      const currentOrderItems = this.orderItemsSubject.value.filter(item => !orderItems.includes(item));
+
+      console.log("Current Order Items Before Add: ", currentOrderItems)
+      this.orderItemsSubject.next([...currentOrderItems, ...items]);
+      console.log("OrderItemSubject After Add: ", this.orderItemsSubject.value)
+
+    }))
+  }  
+
+  deleteOrderItems(orderItems: OrderItem[]) {
+    console.log("Items To Delete: ", orderItems)
+    return this.http.delete<OrderItem[]>(`${this.apiUrl}/delete`, { observe: 'body', body: orderItems }).pipe(tap(() => {
+      const currentOrderItems = this.orderItemsSubject.value;
+      const filteredItems = currentOrderItems.filter(orderItem => !orderItems.includes(orderItem));
+      this.orderItemsSubject.next(filteredItems);
     }));
   }
 }

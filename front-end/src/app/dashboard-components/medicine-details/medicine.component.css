@@ -251,3 +251,9 @@ button:hover {
     display: flex;
     justify-content: center;
 }
+
+.removeSymptom input,
+.addSymptom input {
+    margin: 0 5px;
+    background-color: var(--input-background);
+}

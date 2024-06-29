@@ -1,14 +1,17 @@
 import { Order } from '../models/order';
 import { OrderItem } from '../models/order-item';
+import { User } from '../models/user';
 
 export class OrderData {
 
     order: Order;
     inventory: OrderItem[];
+    user: User;
 
-    constructor(order?: Order, inventory?: OrderItem[]) {
+    constructor(order?: Order, inventory?: OrderItem[], user?: User) {
         this.order = order || new Order();
         this.inventory = inventory || [];
+        this.user = user || new User();
     }
 
     get Order() {
@@ -27,7 +30,15 @@ export class OrderData {
         this.inventory = value;
     }
 
+    get User() {
+        return this.user;
+    }
+
+    set User(value: User) {
+        this.user = value;
+    }
+
     toString(): string {
-        return 'OrderData [id=${this.id}, order=${this.order}, inventory=${this.inventory}, medicine=${this.medicine}]';
+        return `OrderData [Order ID=${this.order['id']}, order=${this.order}, inventory=${this.inventory}, user=${this.user}]`;
     }
 }

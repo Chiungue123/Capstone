@@ -29,6 +29,8 @@ import { MedicineService } from '../services/medicine.service';
 import { OrderService } from '../services/orders.service';
 import { SymptomService } from '../services/symptom.service';
 import { Symptom } from '../models/symptom';
+import { OrderItemService } from '../services/order-item.service';
+import { OrderItem } from '../models/order-item';
 
 @Component({
   selector: 'app-dashboard',
@@ -66,6 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   medicines: Medicine[] = [];
   orderData: OrderData[] = [];
   orders: Order[] = [];
+  orderItems: OrderItem[] = [];
 
   constructor(
     private router: Router,
@@ -73,7 +76,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private scrollService: ScrollService,
     private userService: UserService,
     private medicineService: MedicineService,
-    private orderDataService: OrderManagementService,
+    private orderItemService: OrderItemService,
     private orderService: OrderService,
     private symptomService: SymptomService
   ) { }
@@ -82,7 +85,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadUserData();
     this.loadMedicines();
     this.loadSymptoms();
-    //this.loadOrderData();
+    this.loadOrders();
+    this.loadOrderItems();
 
     this.isDarkMode = localStorage.getItem('darkMode') === 'true';
     this.updateTheme();
@@ -96,26 +100,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadUserData() {
     this.userSubscription = this.userService.getUsers().pipe().subscribe({
-      next: (userData: User[]) => {
-        this.users = userData.map(user => 
-          new User(user['id'], user['firstName'], user['lastName'], user['username'], '', user['email'],
-           user['address'], user['phone'], user['isAdmin'], user['createdOn'], user['modifiedOn'])
-        );
-        console.log("Users: ", this.users.length > 0 ? this.users : "None")
-      },
-      error: (error) => {
-        console.error("Error loading users: ", error);
-      }
+      next: (userData: User[]) => this.users = userData.map(user => new User(user['id'], user['firstName'], user['lastName'], 
+        user['username'], '', user['email'], user['address'], user['phone'], user['isAdmin'], user['createdOn'], user['modifiedOn'])),
+      error: (error) => console.error("Error loading users: ", error)
     })
   }
 
   loadUserDetails(user: User) { 
-    console.log("Load User Details")
     this.router.navigate(['/user-details'], {state: {mode: "view", user: user}});
   }
 
   loadUserForm() { 
-    console.log("Load User Form")
     this.router.navigate(['/user-details'], {state: {mode: "add"}});
   }
 
@@ -128,12 +123,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadMedicines() {
     this.medicineSubscription = this.medicineService.getMedicines().subscribe({
-      next: (medicines: Medicine[]) => {
-        this.medicines = medicines.map(medicine =>
-          new Medicine(medicine['id'], medicine['name'], medicine['price'], medicine['brand'], medicine['stock'])
-        );
-        console.log("Medicines: ", this.medicines.length > 0 ? this.medicines : "None")
-      },
+      next: (medicines: Medicine[]) => this.medicines = medicines.map(medicine => new Medicine(medicine['id'], medicine['name'], medicine['price'], medicine['brand'], medicine['stock'])),
       error: (error) => console.error("Error loading medicines: ", error)
     });
   }
@@ -155,28 +145,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   /*** Order Data Section ***/
 
-  loadOrderData() {
-    this.orderSubscription = this.orderDataService.getOrderData().pipe().subscribe({
-      next: (orders: OrderData[]) => {
-        this.orderData = orders.map(order =>
-          new OrderData(order['order'], order['Inventory'])
-        );
-        console.log("Orders: ", this.orders.length > 0 ? this.orders : "None")
-      },
-      error: (error) => {
-        console.error("Error loading orders: ", error);
-      }
+  loadOrders() {
+    this.orderSubscription = this.orderService.getOrders().pipe().subscribe({
+      next: (orders: Order[]) => this.orders = orders.map(order => new Order(order['id'], order['shipFrom'], order['shipTo'], order['cost'], order['createdOn'], order['ModifiedOn'], order['status'], order['userId'])),
+      error: (error) => console.error("Error loading orders: ", error)
     });
   }
 
-  openOrderDetails(orderId: Number) {
-    console.log("Load Order Details")
-    this.router.navigate(['/order-details', orderId]);
+  loadOrderItems() {
+    this.orderItemService.getOrderItems().pipe().subscribe({
+      next: (orderItems: OrderItem[]) => this.orderItems = orderItems.map(orderItem => new OrderItem(orderItem['id'], orderItem['order'], orderItem['medicine'], orderItem['quantity'], orderItem['cost'])),
+      error: (error) => console.error("Error loading order items: ", error)
+    });
   }
 
   loadOrderForm() { 
-    console.log("Load Order Form")
-    this.router.navigate(['/order-details']);
+    this.router.navigate(['/order-details'], {state: {mode: "add", medicines: this.medicines, users: this.users}});
   }
 
   moreOrders() {
@@ -188,15 +172,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   loadSymptoms() {
     this.symptomService.getSymptoms().pipe().subscribe({
-      next: (symptomData: Symptom[]) => {
-        this.symptoms = symptomData.map(symptom =>
-          new Symptom(symptom['id'], symptom['description'])
-        );
-        console.log("Symptoms: ", this.symptoms.length > 0 ? this.symptoms : "None")
-      },
-      error: (error) => {
-        console.error("Error loading symptoms: ", error);
-      }
+      next: (symptomData: Symptom[]) => this.symptoms = symptomData.map(symptom => new Symptom(symptom['id'], symptom['description'])),
+      error: (error) => console.error("Error loading symptoms: ", error)
     });
   }
 

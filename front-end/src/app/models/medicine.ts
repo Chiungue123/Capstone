@@ -13,6 +13,10 @@ export class Medicine {
         this.stock = stock || 0;
     }
 
+    static fromJson(json: any): Medicine {
+        return new Medicine(json.id, json.name, json.price, json.brand, json.stock);
+    }
+
     get Id() {
         return this.id;
     }

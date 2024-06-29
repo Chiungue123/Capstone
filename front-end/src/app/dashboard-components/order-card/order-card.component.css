@@ -17,6 +17,12 @@ body {
     border-radius: 5px;
 }
 
+svg {
+    width: 25px;
+    height: 25px;
+    margin: 20px 0;
+}
+
 i {
     padding: 10px 0 2px 0;
     font-size: 2em;
@@ -24,7 +30,7 @@ i {
 }
 
 p {
-    padding: 5px 0 2px 0;
+    padding: 2px;
 }
 
 button {

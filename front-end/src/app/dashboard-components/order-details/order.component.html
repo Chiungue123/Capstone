@@ -1,1 +1,130 @@
-<p>order works!</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Order-Details</title>
+    </head>
+    <body>
+        <div class="top">
+            <div class="title">
+                <h1 *ngIf="!showItems && isEditMode"> Edit Order </h1>
+                <h1 *ngIf="!showItems && isAddMode"> Create Order </h1>
+                <h1 *ngIf="!showItems && !isEditMode && !isAddMode">{{ order ? 'Order Details' : 'No Order'}}</h1>
+                <h1 *ngIf="showItems"> Order Items </h1>
+            </div>
+            <div class="brightness">
+                <span class="light" (click)="toggleTheme('light')" [class.active]="!isDarkMode"><i class="bi bi-sun-fill"></i></span>
+                <span class="dark" (click)="toggleTheme('dark')" [class.active]="isDarkMode"><i class="bi bi-moon-fill"></i></span>
+            </div>
+        </div>
+        <form [formGroup]="orderForm">
+            <div class="rows" *ngIf="!showItems">
+                <div class="row" *ngIf="!isAddMode">
+                    <span>Order ID</span>
+                    <span class="rtl">{{ order.Id }}</span>
+                </div>
+                <div class="row">
+                    <label for="shipFrom"> Ship From: </label>
+                    <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ order.ShipFrom }}</span>
+                    <input id="shipFrom" *ngIf="isEditMode || isAddMode" formControlName="shipFrom" placeholder="Ship From">
+                </div>
+                <div class="row">
+                    <label for="shipTo"> Ship To: </label>
+                    <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ order.ShipTo }}</span>
+                    <input id="shipTo" *ngIf="isEditMode || isAddMode" formControlName="shipTo" placeholder="Ship To">
+                </div>
+                <div class="row" *ngIf="!isAddMode && !isEditMode">
+                    <label for="cost"> Total Price: </label>
+                    <span class="rtl">{{ order.Cost | currency : "CAD" }}</span>
+                </div>
+                <div class="row" *ngIf="!isEditMode && !isAddMode">
+                    <label for="createdOn" class="name">Created On: </label>
+                    <span class="rtl">{{ order.CreatedOn | date : "longDate" }}</span>
+                </div>
+                <div class="row" *ngIf="!isEditMode && !isAddMode">
+                    <label for="modifiedOn" class="name">Last Update: </label>
+                    <span class="rtl">{{ order.ModifiedOn | date : "longDate" }}</span>
+                </div>
+                <div class="row" *ngIf="isAddMode">
+                    <label for="user"> User: </label>
+                    <select id="userIds" (change)="onAddUser($event)">
+                        <option value="">Select a user</option>
+                        <option *ngFor="let user of allUsers" [value]="user.Id">{{ user['firstName'] }} {{ user['lastName'] }}</option>
+                    </select>
+                </div>
+                <div class="row" *ngIf="!isAddMode">
+                    <label for="items"> Items: </label>
+                    <span class="rtl" *ngIf="!isAddMode">{{ items.length }}</span>
+                </div>
+                <div class="row" *ngIf="!isAddMode">
+                    <label for="status">Status:</label>
+                    <div class="dropdown-wrapper">
+                      <span class="rtl" *ngIf="!isEditMode && !isAddMode">{{ order.Status }}</span>
+                      <div *ngIf="isEditMode" class="dropdown-container" (click)="toggleDropdown()">
+                        <select id="status" formControlName="status">
+                          <option value="pending">Pending</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="delivered">Delivered</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>                              
+                <div class="row" *ngIf="!isAddMode">
+                    <label for="userId"> User ID: </label>
+                    <span class="rtl" *ngIf="!isAddMode || !isEditMode">{{ order.UserId }}</span>
+                </div>
+            </div>
+            <div class="rows" *ngIf="showItems">
+                <table>
+                    <tr>
+                        <th> Name </th>
+                        <th *ngIf="isAddMode"> Stock </th>
+                        <th *ngIf="!isAddMode"> Quantity </th>
+                        <th> Price </th>
+                        <th *ngIf="isAddMode || isEditMode"> Action </th>
+                    </tr>
+                    <ng-container *ngIf="isEditMode"> <!-- Edit Mode: Display Existing Items To Undo -->
+                        <tr *ngFor="let item of items">
+                            <td> {{ item.Medicine.Name }} </td>
+                            <td> {{ item.Quantity }} </td>
+                            <td> {{ item.Cost | currency : "CAD" }} </td>
+                            <td class="removeMedicine">
+                                <label>Undo</label>
+                                <input type="checkbox" (change)="onRemoveMedicineFromOrder(item.Medicine.Id)">
+                            </td>
+                        </tr>
+                        <br>
+                    </ng-container>
+                    <ng-container *ngIf="isAddMode || isEditMode"> <!-- Add/Edit Mode: Display Medicines To Add -->
+                        <tr *ngFor="let medicine of medicinesToAdd">
+                            <td> {{ medicine.Name }} </td>
+                            <td> {{ medicine.Stock }} </td>
+                            <td> {{ medicine.Price | currency : "CAD" }} </td>
+                            <td class="addMedicineAmount">
+                                <label>Add</label>
+                                <input type="number" min="0" #quantityInput (change)="onAddMedicineToOrder(medicine.Id, quantityInput.value)">
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!isAddMode && !isEditMode"> <!-- View Mode: Display Order Items -->
+                        <tr *ngFor="let item of items">
+                            <td> {{ item.Medicine.Name }} </td>
+                            <td> {{ item.Quantity }} </td>
+                            <td> {{ item.Medicine.Price * item.Quantity | currency : "CAD" }} </td>
+                        </tr>
+                    </ng-container>
+                </table>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" class="back" (click)="onGoBack()">Go Back <i class="bi bi-door-open"></i></button>
+                <button type="button" class="items" (click)="onToggleItems()">{{ showItems ? 'Order' : 'Items' }} <i class="bi bi-box"></i></button>
+                <button type="button" class="edit" *ngIf="!isEditMode && !isAddMode" (click)="onEdit()">Edit <i class="bi bi-pencil-square"></i></button>
+                <button type="button" class="update" *ngIf="isEditMode" (click)="onUpdate()">Update <i class="bi bi-send"></i></button>
+                <button type="button" class="delete" *ngIf="!isAddMode && !isEditMode" (click)="onDelete(order.Id)">Delete <i class="bi bi-trash"></i></button>
+                <button type="button" class="add" *ngIf="isAddMode" (click)="onAdd()">Add <i class="bi bi-send-fill"></i></button>
+            </div>
+        </form>
+    </body>
+</html>

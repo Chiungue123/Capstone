@@ -8,7 +8,7 @@ export const environment = {
         symptoms: 'symptoms',
         users: 'users',
         orders: 'orders',
-        orderItems: 'order_items'
+        orderItems: 'order-items'
     }
     // Add any other environment-specific variables here
 };
