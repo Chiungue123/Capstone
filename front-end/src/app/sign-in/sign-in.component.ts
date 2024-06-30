@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,11 +15,13 @@ import { User } from '../models/user';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
+
 export class SignInComponent {
 
   constructor(private toastr: ToastrService, 
               private router: Router, 
-              private authService: AuthService) { }
+              private authService: AuthService
+            ) { }
 
   isActive: boolean = false;
   isRegister: boolean = false; // Reveal the register form
@@ -70,34 +73,30 @@ export class SignInComponent {
 
   onRegister() {
     console.log("Sign In Component: onRegister()")
-
   }
 
   onSignIn() {
-    console.log("Sign In Component: onSignIn()")
 
-    if (this.validateUser()) {
-      this.toastr.info('Verifying your email and password...');
+    let user = new User();
+    user.Email = this.signInForm.value.email ?? "";
+    user.Password = this.signInForm.value.password ?? "";
 
-      let user = new User();
-      let email = this.signInForm.value.email ?? "";
-      let password = this.signInForm.value.password ?? "";
-
-      this.authService.signIn(user).subscribe({
-
-        next: (user: User) => {
-          if (user === null) {
-            this.toastr.error('Invalid email or password');
-          } else {
-            this.toastr.success('Sign In Successful');
-            this.router.navigate(['/dashboard']);
-          }
-        },
-        error: (error: any) => {
+    this.authService.signIn(user).subscribe({
+      next: (u: User) => {
+        if (u === null || u === undefined || u.FirstName === '' || u.LastName === '' || u.Email === '') {
           this.toastr.error('Invalid email or password');
+          return;
+
+        } else {
+          const mappedUser = new User(u['id'], u['firstName'], u['lastName'], u['username'], u['password'], u['email'], u['address'], u['phone'], u['isAdmin'], u['createdOn'], u['modifiedOn']);
+          this.toastr.success('Welcome back, ' + mappedUser.FirstName + '.');
+          this.router.navigate(['/dashboard'], {state: {loggeInUser : mappedUser}});
         }
-      });
-    } 
+      },
+      error: (error: any) => {
+        this.toastr.error('Invalid email or password', error.message);
+      }
+    });
   }
 
   validateRestistry() {
@@ -136,9 +135,10 @@ export class SignInComponent {
 
       this.toastr.error('Password must be at least 8 characters long');
       return false;
+    } else {
+        
+      return true;
     }
-
-    return true;
   }
 
   onTest() {

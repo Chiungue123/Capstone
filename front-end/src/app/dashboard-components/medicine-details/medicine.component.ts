@@ -89,7 +89,9 @@ export class MedicineComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    console.log("====  Loading All Symptoms from ngOnInit   ====")
+    if (localStorage.getItem('darkMode') === 'true') {
+      this.isDarkMode = true;
+    }
     this.loadAllSymptoms();
   }
 
@@ -113,15 +115,9 @@ export class MedicineComponent implements OnDestroy {
         this.allSymptoms = symptomData.map(symptom =>
           new Symptom(symptom['id'], symptom['description'])
         ); 
-
-        console.log("All Symptoms: ", this.allSymptoms.length > 0 ? this.allSymptoms : "None")
-        console.log("Medicine Symptoms: ", this.medicineSymptoms.length > 0 ? this.medicineSymptoms : "None")
-        console.log("Non-Medicine Symptoms Before: ", this.nonMedicineSymptoms.length > 0 ? this.nonMedicineSymptoms : "None")
         this.nonMedicineSymptoms = this.allSymptoms.filter(symptom => 
           !this.medicineSymptoms.some(medicineSymptom => medicineSymptom.id === symptom.id)
         );
-        console.log("Non-Medicine Symptoms: ", this.nonMedicineSymptoms.length > 0 ? this.nonMedicineSymptoms : "None")
-        
       },
       error: (error) => {
         console.error("Error loading symptoms: ", error);

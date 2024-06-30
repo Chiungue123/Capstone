@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ScrollService } from '../services/scroll.service';
+import { ScrollService } from '../../services/scroll.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,9 +11,16 @@ import { ScrollService } from '../services/scroll.service';
 })
 export class HeaderComponent {
 
-  constructor(private scrollService: ScrollService) {}
+  constructor(
+    private scrollService: ScrollService,
+    private router: Router
+  ) {}
 
   scrollToSection(sectionId: string) {
     this.scrollService.changeSection(sectionId);
+  }
+
+  onLogOut() {
+    this.router.navigate(['/login']);
   }
 }

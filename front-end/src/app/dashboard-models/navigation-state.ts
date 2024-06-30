@@ -8,6 +8,7 @@ export interface EditState {
     order: Order;
     items: OrderItem[];
     user: User;
+    loggedInUser: User;
 }
 
 export function isEditState(state: any): state is EditState {
@@ -18,6 +19,7 @@ export interface AddState {
     mode: string;
     medicines: Medicine[];
     users: User[];
+    loggedInUser: User;
 }
 
 export function isAddState(state: any): state is AddState {
@@ -29,6 +31,7 @@ export interface ViewState {
     order: Order;
     items: OrderItem[];
     user: User;
+    loggedInUser: User;
 }
 
 export function isViewState(state: any): state is ViewState {

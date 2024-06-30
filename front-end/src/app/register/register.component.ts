@@ -50,8 +50,6 @@ export class RegisterComponent {
     address: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
     isAdmin: new FormControl(false)
-    //createdOn: new FormControl([new Date()]),
-    //modifiedOn: new FormControl([new Date()])
   });
 
   onNext() {
@@ -64,95 +62,126 @@ export class RegisterComponent {
     this.changeSlide();
   }
 
-changeSlide(): void {
+  changeSlide(): void {
 
-  // Use querySelector to get the slides container and assert it as HTMLElement
-  const slidesContainer = document.querySelector('.slides-container') as HTMLElement;
-  const slideWidth = 350; // Width of individual slide
+    // Use querySelector to get the slides container and assert it as HTMLElement
+    const slidesContainer = document.querySelector('.slides-container') as HTMLElement;
+    const slideWidth = 350; // Width of individual slide
 
-  if (slidesContainer) {
-    console.log("Transform: ", `translateX(-${(this.currentStep - 1) * slideWidth}px)`);
-    slidesContainer.style.transform = `translateX(-${(this.currentStep - 1) * slideWidth}px)`;
-
-    // Now that slidesContainer is typed as HTMLElement, you can access offsetWidth
-    console.log("Slides Container Width: ", slidesContainer.offsetWidth);
-  } else {
-    console.error("Slides container not found.");
+    if (slidesContainer) {
+      console.log("Transform: ", `translateX(-${(this.currentStep - 1) * slideWidth}px)`);
+      slidesContainer.style.transform = `translateX(-${(this.currentStep - 1) * slideWidth}px)`;
+    } else {
+      console.error("Slides container not found.");
+    }
   }
-}
 
-// Add this method in your component class
-isPasswordMatching(): boolean {
-  return this.registerForm.value.password === this.registerForm.value.confirmPassword;
-}
+  // Add this method in your component class
+  isPasswordMatching(): boolean {
+    return this.registerForm.value.password === this.registerForm.value.confirmPassword;
+  }
 
-// Modify your onSubmit method to include this check
-onSubmit() {
-  console.log("Submit Button Clicked")
-  console.log("Form Info: ", this.registerForm.value)
+  // Modify your onSubmit method to include this check
+  onSubmit() {
+    console.log("Register Form: ", this.registerForm.value)
 
-  if (this.registerForm.valid && this.isPasswordMatching()) {
-    // Proceed with submission logic
-    this.toastr.info("Passwords Match")
+    if (this.registerForm.valid && this.isPasswordMatching()) {
 
+      let user = new User();
+
+      user.FirstName = this.registerForm.get('firstName')?.value || "";
+      user.LastName = this.registerForm.get('lastName')?.value || "";
+      user.Username = this.registerForm.get('username')?.value || "";
+      user.Password = this.registerForm.get('password')?.value || "";
+      user.Address = this.registerForm.get('address')?.value || "";
+      user.Phone = this.registerForm.get('phone')?.value || "";
+      user.IsAdmin = this.registerForm.get('isAdmin')?.value || false;
+      user.CreatedOn = new Date();
+      user.ModifiedOn = new Date();
+      user.Email = this.email;
+
+      if (this.validateUser(user)) {
+        this.authService.register(user).subscribe({
+          next: (user) => {
+            console.log("User Registered: ", user);
+            this.toastr.success('User registered successfully.');
+            this.router.navigate(['/login']);
+          },
+          error: (error) => {
+            console.error("Error registering user: ", error);
+            this.toastr.error('Error registering user.');
+          }
+        });
+      } else {
+        this.toastr.error('User not valid.');
+      }
+
+    } else {
+
+      this.toastr.error('Passwords do not match.');
+    }
+  }
+
+  validateUser(user: User): boolean {
+    if (user === null || user === undefined) {
+      this.toastr.error("User Not Valid: Redirecting to Login")
+      return false;
+
+    } else if (user.FirstName === '' || user.LastName === '') {
+      this.toastr.error("User First and Last Name Invalid")
+      return false;
+
+    } else if (user.Username === '' || user.Password === '') {
+      this.toastr.error("User Username or Password Invalid")
+      return false;
+
+    } else if (user.Address === '' || user.Phone === '') {
+      this.toastr.error("User Address or Phone Invalid")
+      return false;
+
+    } else if (user.Email === '' || user.Email === null || user.Email === undefined) {
+      this.toastr.error("User Email Invalid")
+      return false;
+
+    } else {
+      console.log("Registration Page: User Verified")
+      return true;
+    }
+  }
+
+  validateEmail(email: string) {
+    if (email === '' || email === null ||
+      email === undefined || !email.includes("@")) {
+      this.toastr.error("Incorrectly Formatted Email: Redirecting to Login")
+      this.router.navigate(['/login'])
+    } else {
+      console.log("Registration Page: Email Verified")
+    }
+  }
+
+  /*onTest() {
     let user = new User();
 
-    user.FirstName = this.registerForm.get('firstName')?.value || "";
-    user.LastName = this.registerForm.get('lastName')?.value || "";
-    user.Username = this.registerForm.get('username')?.value || "";
-    user.Password = this.registerForm.get('password')?.value || "";
-    user.Address = this.registerForm.get('address')?.value || "";
-    user.Phone = this.registerForm.get('phone')?.value || "";
-    user.IsAdmin = this.registerForm.get('isAdmin')?.value || false;
+    user.FirstName = "Test";
+    user.LastName = "User";
+    user.Username = "testuser";
+    user.Password = "password";
+    user.Address = "123 Test St";
+    user.Phone = "1234567890";
+    user.Email = "test@example.com";
+    user.IsAdmin = false;
 
     let currentTime = new Date();
     user.CreatedOn = currentTime;
     user.ModifiedOn = currentTime;
 
-  } else {
-    // Handle validation errors or mismatched passwords
-    this.toastr.error('Passwords do not match.');
-  }
-}
+    console.log("User Details: ", user)
+    console.log(user.Email);
 
-onTest() {
-
-  console.log("Register Component: Redirecting to Dashboard")
-  console.log("Using Made Up User as Test")
-
-  let user = new User();
-
-  user.FirstName = "Test";
-  user.LastName = "User";
-  user.Username = "testuser";
-  user.Password = "password";
-  user.Address = "123 Test St";
-  user.Phone = "1234567890";
-  user.Email = "test@example.com";
-  user.IsAdmin = false;
-
-  let currentTime = new Date();
-  user.CreatedOn = currentTime;
-  user.ModifiedOn = currentTime;
-
-  console.log("User Details: ", user)
-  console.log(user.Email);
-
-  console.log("Navigating to Dashboard")
-  // Reading undefined in the dashboard component
-  this.router.navigate(['/dashboard'], { state: { user } });
-}
-
-validateEmail(email: string) {
-  if (email === '' || email === null ||
-        email === undefined || !email.includes("@")) {
-
-        this.toastr.error("Incorrectly Formatted Email: Redirecting to Login")
-        this.router.navigate(['/login'])
-      } else {
-         console.log("Registration Page: Email Verified")
-      }
-}
+    console.log("Navigating to Dashboard")
+    // Reading undefined in the dashboard component
+    this.router.navigate(['/dashboard'], { state: { user } });
+  }*/
 /*
 
 IMPLEMENTING HASHING FOR SECURITY

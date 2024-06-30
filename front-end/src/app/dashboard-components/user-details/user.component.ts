@@ -22,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserComponent {
 
+  loggedInUser: User = new User();
   userForm!: FormGroup;
   isEditMode: boolean = false;
   isAddMode: boolean = false;
@@ -40,17 +41,19 @@ export class UserComponent {
     const navigation = this.router.getCurrentNavigation();
 
     if (navigation && navigation.extras && navigation.extras.state) {
-      const state = navigation.extras.state as { mode: string, user: User }
+      const state = navigation.extras.state as { mode: string, user: User/*, loggedInUser: User */};
       
       if (state.user && state.mode === "view") {
-        //console.log("View User Mode")
-        this.user = state.user;
+        console.log("View User Mode")
+        //this.loggedInUser = state.loggedInUser;
+        this.user = this.convertToUser(state.user);
         this.isEditMode = false;
         this.isAddMode = false;
         this.userForm = this.updateForm(this.user);
 
       } else if (state.mode === "add" && !state.user) {
-        //console.log("Add User Mode")
+        console.log("Add User Mode")
+        //this.loggedInUser = state.loggedInUser;
         this.isAddMode = true;
         this.userForm = this.addForm();
       
@@ -62,6 +65,25 @@ export class UserComponent {
         console.log("isAddMode: ", this.isAddMode)
       } 
     }
+  }
+
+  convertToUser(user: any): User {
+    return new User(user['id'], user['firstName'], user['lastName'], user['username'], user['password'], user['email'], user['address'], user['phone'], user['isAdmin'], user['createdOn'], user['modifiedOn'])
+  }
+
+  ngOnInit() {
+    if (localStorage.getItem('darkMode') === 'true') {
+      this.isDarkMode = true;
+    }
+    
+    /*console.log("NgOnInit: Logged In User: ", this.loggedInUser)
+    if (this.loggedInUser['firstName'] !== '' || this.loggedInUser['lastName'] !== '') { 
+      this.loggedInUser = new User(this.loggedInUser['id'], this.loggedInUser['firstName'], this.loggedInUser['lastName'], this.loggedInUser['username'], '', this.loggedInUser['email'], this.loggedInUser['address'], this.loggedInUser['phone'], this.loggedInUser['isAdmin'], this.loggedInUser['createdOn'], this.loggedInUser['modifiedOn'])
+    
+    } else if (this.loggedInUser.FirstName == '' && this.loggedInUser.LastName == '') {
+      this.toastr.info("Dashboard: No Logged User")
+      this.router.navigate(['/login']);
+    }*/
   }
 
   addForm(): FormGroup {

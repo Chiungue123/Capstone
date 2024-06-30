@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, NgForOf } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, take } from 'rxjs';
+import { Subscription, map, take } from 'rxjs';
 
 // Component Imports
-import { HeaderComponent } from '../header/header.component';
+import { HeaderComponent } from '../footer/header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { UserComponent } from '../dashboard-components/user-details/user.component';
 import { UserCardComponent } from '../dashboard-components/user-card/user-card.component';
@@ -31,6 +31,8 @@ import { SymptomService } from '../services/symptom.service';
 import { Symptom } from '../models/symptom';
 import { OrderItemService } from '../services/order-item.service';
 import { OrderItem } from '../models/order-item';
+import { AuthService } from '../services/auth.service';
+import { Pipe } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -62,6 +64,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   position: string = "Admin";
   FirstName: string = "Rodger";
   isDarkMode: boolean = false;
+  loggedInUser!: User; // Represents the Logged In User
   userData: User[] = []; // When receiving raw JSON
   users: User[] = []; // Collects User Objects from JSON
   symptoms: Symptom[] = [];
@@ -78,10 +81,39 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private medicineService: MedicineService,
     private orderItemService: OrderItemService,
     private orderService: OrderService,
-    private symptomService: SymptomService
-  ) { }
+    private symptomService: SymptomService,
+    private authService: AuthService
+  ) { 
+    /*const navigation = this.router.getCurrentNavigation();
+
+    if (navigation && navigation.extras && navigation.extras.state) {
+
+      const state = navigation.extras.state as { loggedInUser: User }
+      this.loggedInUser = state.loggedInUser;
+
+      if (this.loggedInUser.FirstName === '' || this.loggedInUser.LastName === '') {
+        console.log("Dashboard: Logged User: ", this.loggedInUser.FirstName + " " + this.loggedInUser.LastName)
+
+      } else if (!this.loggedInUser === undefined || !this.loggedInUser === null) {
+        this.toastr.info("Dashboard: No Logged User")
+        router.navigate(['/login']);
+      }
+    }*/
+  }
 
   ngOnInit(): void {
+    /*if (this.loggedInUser === undefined || this.loggedInUser === null) {
+      this.toastr.info("Dashboard: No Logged User")
+      this.router.navigate(['/login']);
+    
+    } else if (this.loggedInUser['firstName'] !== '' || this.loggedInUser['lastName'] !== '') { 
+      this.loggedInUser = new User(this.loggedInUser['id'], this.loggedInUser['firstName'], this.loggedInUser['lastName'], this.loggedInUser['username'], '', this.loggedInUser['email'], this.loggedInUser['address'], this.loggedInUser['phone'], this.loggedInUser['isAdmin'], this.loggedInUser['createdOn'], this.loggedInUser['modifiedOn'])
+    
+    } else if (this.loggedInUser.FirstName == '' && this.loggedInUser.LastName == '') {
+      this.toastr.info("Dashboard: No Logged User")
+      this.router.navigate(['/login']);
+    }*/
+
     this.loadUserData();
     this.loadMedicines();
     this.loadSymptoms();
@@ -106,12 +138,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     })
   }
 
-  loadUserDetails(user: User) { 
-    this.router.navigate(['/user-details'], {state: {mode: "view", user: user}});
-  }
-
   loadUserForm() { 
-    this.router.navigate(['/user-details'], {state: {mode: "add"}});
+    this.router.navigate(['/user-details'], {state: {mode: "add"/*, loggedInUser: this.loggedInUser*/}});
   }
 
   moreUsers() {
@@ -128,14 +156,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  loadMedicneDetails(medicine: Medicine) { 
-    console.log("Load Medicine Details")
-    this.router.navigate(['/medicine-details', medicine]);
-  }
-
   loadMedicineForm() {
     console.log("Load Medicine Form")
-    this.router.navigate(['/medicine-details'], {state: {mode: "add"}});
+    this.router.navigate(['/medicine-details'], {state: {mode: "add"/*, loggedInUser: this.loggedInUser*/}});
   }
 
   moreMedicines() {
@@ -160,7 +183,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   loadOrderForm() { 
-    this.router.navigate(['/order-details'], {state: {mode: "add", medicines: this.medicines, users: this.users}});
+    this.router.navigate(['/order-details'], {state: {mode: "add", medicines: this.medicines, users: this.users/*, loggedInUser: this.loggedInUser*/}});
   }
 
   moreOrders() {

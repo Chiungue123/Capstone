@@ -89,6 +89,12 @@ export class OrderComponent {
     }
   }
 
+  ngOnInit() {
+    if (localStorage.getItem('darkMode') === 'true') {
+      this.isDarkMode = true;
+    }
+  }
+
 /*** Data Conversion ***/
 
   convertToOrder(order: any): Order {

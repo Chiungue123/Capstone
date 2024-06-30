@@ -23,7 +23,6 @@ export class OrderItemService {
       tap(orderItems => {
         orderItems = orderItems.map(item => new OrderItem(item['id'], item['order'], item['medicine'], item['quantity'], item['cost']));
         this.orderItemsSubject.next(orderItems);
-        console.log("Order Items Subject: ", this.orderItemsSubject.value)
       }),
       switchMap(() => this.orderItem$)
     );
@@ -38,7 +37,6 @@ export class OrderItemService {
       items = items.map(item => new OrderItem(item['id'], item['order'], item['medicine'], item['quantity'], item['cost']));
       const currentOrderItems = this.orderItemsSubject.value;
       this.orderItemsSubject.next([...currentOrderItems, ...items]);
-      console.log("Get Items By Order ID: ", items)
     }));
   }
 
@@ -47,11 +45,7 @@ export class OrderItemService {
     return this.http.post<OrderItem[]>(`${this.apiUrl}/add`, orderItems).pipe(tap(items => {
       items = items.map(item => new OrderItem(item['id'], item['order'], item['medicine'], item['quantity'], item['cost']));
       const currentOrderItems = this.orderItemsSubject.value.filter(item => !orderItems.includes(item));
-
-      console.log("Current Order Items Before Add: ", currentOrderItems)
       this.orderItemsSubject.next([...currentOrderItems, ...items]);
-      console.log("OrderItemSubject After Add: ", this.orderItemsSubject.value)
-
     }))
   }  
 
